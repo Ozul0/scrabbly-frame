@@ -1,12 +1,14 @@
 // API endpoint to generate game images for Farcaster Frame
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const letters = searchParams.get('letters') || '';
-    const score = parseInt(searchParams.get('score') || '0');
-    const found = searchParams.get('found') || '';
+    const url = new URL(request.url);
+    const letters = url.searchParams.get('letters') || '';
+    const score = parseInt(url.searchParams.get('score') || '0');
+    const found = url.searchParams.get('found') || '';
     
     // Generate SVG image
     const svg = generateGameImage(letters, score, found);
