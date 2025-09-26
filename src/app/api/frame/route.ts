@@ -3,6 +3,29 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ScraBBlyGame } from '@/lib/game';
 import { DatabaseService } from '@/lib/supabase';
 
+export async function GET(request: NextRequest) {
+  // Handle GET requests for testing the frame
+  try {
+    const game = ScraBBlyGame.getInstance();
+    const db = DatabaseService.getInstance();
+    
+    // Generate a sample puzzle for testing
+    const puzzle = game.generatePuzzle('medium');
+    await db.savePuzzle(puzzle);
+
+    const frameHtml = generateGameFrame(puzzle, [], 0, false);
+    
+    return new NextResponse(frameHtml, {
+      headers: {
+        'Content-Type': 'text/html',
+      },
+    });
+  } catch (error) {
+    console.error('Frame GET error:', error);
+    return new NextResponse('Error generating frame', { status: 500 });
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
