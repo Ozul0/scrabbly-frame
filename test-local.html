@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScraBBly Frame Test</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+        }
+        .test-container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+        }
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            .test-container {
+                max-width: 600px;
+                padding: 20px;
+                border-radius: 20px;
+            }
+        }
+        .test-section {
+            margin: 15px 0;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+        @media (min-width: 768px) {
+            .test-section {
+                margin: 20px 0;
+                padding: 15px;
+                border-radius: 10px;
+            }
+        }
+        button {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 3px;
+            font-size: 14px;
+            width: 100%;
+            max-width: 200px;
+        }
+        button:hover {
+            background: #45b7b8;
+        }
+        @media (min-width: 768px) {
+            button {
+                padding: 10px 20px;
+                margin: 5px;
+                width: auto;
+                font-size: 16px;
+            }
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 5px;
+            text-align: left;
+        }
+        .letters-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .letter {
+            width: 45px;
+            height: 45px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+        .center-letter {
+            background: #4ecdc4;
+            transform: scale(1.1);
+        }
+        @media (min-width: 768px) {
+            .letters-container { 
+                gap: 10px; 
+                margin: 20px 0; 
+            }
+            .letter { 
+                width: 50px; 
+                height: 50px; 
+                font-size: 24px; 
+            }
+            .center-letter { 
+                transform: scale(1.2); 
+            }
+        }
+    </style>
+</head>
+<body>
+        <div class="test-container">
+            <h1>🎯 ScraBBly Frame Testing</h1>
+            <p style="margin-bottom: 20px; font-size: 14px; opacity: 0.9;">
+                Classic 7-letter word game! Make words from 7 random letters. 
+                Try to find the longest word possible - bonus points for 7-letter words!
+            </p>
+            
+            <div class="test-section">
+                <h3>1. Generate 7-Letter Puzzle</h3>
+                <button onclick="generatePuzzle()">Generate New Puzzle</button>
+                <div id="puzzle-result" class="result"></div>
+            </div>
+
+        <div class="test-section">
+            <h3>2. Test Word Validation</h3>
+            <input type="text" id="word-input" placeholder="Enter a word to test" style="padding: 10px; margin: 10px; border-radius: 5px; border: none;">
+            <button onclick="validateWord()">Validate Word</button>
+            <div id="validation-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. Test Frame HTML Generation</h3>
+            <button onclick="generateFrameHTML()">Generate Frame HTML</button>
+            <div id="frame-result" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. Test Image Generation</h3>
+            <button onclick="testImageGeneration()">Test Game Image</button>
+            <div id="image-result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentPuzzle = null;
+
+        // Mock game logic for testing
+        function generatePuzzle() {
+            // Generate 7 random letters with good word-forming potential
+            const letterSets = {
+                easy: ['A', 'E', 'I', 'O', 'U', 'R', 'S', 'T', 'L', 'N', 'D', 'G', 'B', 'C', 'M', 'P', 'F', 'H', 'V', 'W', 'Y'],
+                medium: ['A', 'E', 'I', 'O', 'U', 'R', 'S', 'T', 'L', 'N', 'D', 'G', 'B', 'C', 'M', 'P', 'F', 'H', 'V', 'W', 'Y', 'K', 'J', 'X', 'Q', 'Z'],
+                hard: ['A', 'E', 'I', 'O', 'U', 'R', 'S', 'T', 'L', 'N', 'D', 'G', 'B', 'C', 'M', 'P', 'F', 'H', 'V', 'W', 'Y', 'K', 'J', 'X', 'Q', 'Z']
+            };
+            
+            const availableLetters = letterSets.medium;
+            const selectedLetters = [];
+            
+            // Ensure we have at least one vowel
+            const vowels = ['A', 'E', 'I', 'O', 'U'];
+            selectedLetters.push(vowels[Math.floor(Math.random() * vowels.length)]);
+            
+            // Add 6 more letters
+            while (selectedLetters.length < 7) {
+                const randomLetter = availableLetters[Math.floor(Math.random() * availableLetters.length)];
+                if (!selectedLetters.includes(randomLetter)) {
+                    selectedLetters.push(randomLetter);
+                }
+            }
+            
+            const shuffled = selectedLetters.sort(() => Math.random() - 0.5);
+            
+            currentPuzzle = {
+                id: 'test_' + Date.now(),
+                letters: shuffled,
+                centerLetter: shuffled[0], // First letter is the center
+                difficulty: 'medium'
+            };
+
+            const lettersHtml = currentPuzzle.letters.map((letter, index) => 
+                `<div class="letter ${index === 0 ? 'center-letter' : ''}">${letter}</div>`
+            ).join('');
+
+            document.getElementById('puzzle-result').innerHTML = `
+                <h4>Generated Puzzle:</h4>
+                <div class="letters-container">${lettersHtml}</div>
+                <p><strong>Center Letter:</strong> ${currentPuzzle.centerLetter}</p>
+                <p><strong>Difficulty:</strong> ${currentPuzzle.difficulty}</p>
+            `;
+        }
+
+        function validateWord() {
+            const word = document.getElementById('word-input').value.toUpperCase().trim();
+            
+            if (!currentPuzzle) {
+                document.getElementById('validation-result').innerHTML = 
+                    '<p style="color: #ff6b6b;">Please generate a puzzle first!</p>';
+                return;
+            }
+
+            if (word.length < 3) {
+                document.getElementById('validation-result').innerHTML = 
+                    '<p style="color: #ff6b6b;">Word must be at least 3 letters long</p>';
+                return;
+            }
+
+            // Check if word contains only letters from puzzle (with proper counting)
+            const puzzleLetters = [...currentPuzzle.letters];
+            const wordLetters = [...word];
+            let isValid = true;
+            let reason = '';
+
+            // Check if word uses the center letter
+            if (!word.includes(currentPuzzle.centerLetter)) {
+                isValid = false;
+                reason = `Word must contain the center letter '${currentPuzzle.centerLetter}'`;
+            } else {
+                // Check if we can form the word with available letters
+                const availableLetters = [...puzzleLetters];
+                for (const letter of wordLetters) {
+                    const index = availableLetters.indexOf(letter);
+                    if (index === -1) {
+                        isValid = false;
+                        reason = `Letter '${letter}' is not available in this puzzle`;
+                        break;
+                    }
+                    availableLetters.splice(index, 1); // Remove used letter
+                }
+            }
+
+            // Basic dictionary check (simplified for demo)
+            if (isValid) {
+                const commonWords = [
+                    'CAT', 'DOG', 'HOUSE', 'CAR', 'TREE', 'BOOK', 'WATER', 'FIRE', 'EARTH',
+                    'AIR', 'LOVE', 'HOPE', 'DREAM', 'LIGHT', 'DARK', 'GOOD', 'BAD', 'BIG',
+                    'SMALL', 'FAST', 'SLOW', 'HOT', 'COLD', 'NEW', 'OLD', 'YOUNG', 'HAPPY',
+                    'SAD', 'ANGRY', 'CALM', 'PEACE', 'WAR', 'LIFE', 'DEATH', 'TIME', 'SPACE',
+                    'MOON', 'SUN', 'STAR', 'SKY', 'SEA', 'LAND', 'MOUNTAIN', 'RIVER', 'LAKE',
+                    'FOREST', 'DESERT', 'CITY', 'TOWN', 'VILLAGE', 'COUNTRY', 'WORLD', 'EARTH',
+                    'PLANET', 'UNIVERSE', 'GOD', 'SPIRIT', 'SOUL', 'MIND', 'BODY', 'HEART',
+                    'HAND', 'FOOT', 'EYE', 'EAR', 'NOSE', 'MOUTH', 'TOOTH', 'HAIR', 'SKIN',
+                    'BONE', 'BLOOD', 'FLESH', 'MUSCLE', 'BRAIN', 'LUNG', 'HEART', 'LIVER',
+                    'KIDNEY', 'STOMACH', 'INTESTINE', 'VEIN', 'ARTERY', 'NERVE', 'CELL',
+                    'ATOM', 'MOLECULE', 'ELEMENT', 'COMPOUND', 'MIXTURE', 'SOLUTION',
+                    'SOLID', 'LIQUID', 'GAS', 'PLASMA', 'ENERGY', 'FORCE', 'POWER',
+                    'STRENGTH', 'WEAKNESS', 'COURAGE', 'FEAR', 'BRAVERY', 'COWARDICE',
+                    'HONESTY', 'DISHONESTY', 'TRUTH', 'LIE', 'FACT', 'FICTION', 'REALITY',
+                    'FANTASY', 'IMAGINATION', 'CREATIVITY', 'ART', 'MUSIC', 'DANCE',
+                    'POETRY', 'PROSE', 'STORY', 'TALE', 'LEGEND', 'MYTH', 'HISTORY',
+                    'FUTURE', 'PAST', 'PRESENT', 'NOW', 'THEN', 'WHEN', 'WHERE', 'WHY',
+                    'HOW', 'WHAT', 'WHO', 'WHICH', 'WHOSE', 'WHOM', 'THIS', 'THAT',
+                    'THESE', 'THOSE', 'HERE', 'THERE', 'EVERYWHERE', 'NOWHERE', 'SOMEWHERE',
+                    'ANYWHERE', 'ALWAYS', 'NEVER', 'SOMETIMES', 'OFTEN', 'RARELY', 'SELDOM',
+                    'USUALLY', 'NORMALLY', 'TYPICALLY', 'GENERALLY', 'SPECIFICALLY',
+                    'PARTICULARLY', 'ESPECIALLY', 'MAINLY', 'MOSTLY', 'PARTLY', 'COMPLETELY',
+                    'TOTALLY', 'ENTIRELY', 'FULLY', 'HALF', 'QUARTER', 'THIRD', 'DOUBLE',
+                    'TRIPLE', 'SINGLE', 'MULTIPLE', 'MANY', 'FEW', 'SEVERAL', 'SOME',
+                    'ANY', 'ALL', 'NONE', 'NOTHING', 'SOMETHING', 'EVERYTHING', 'ANYTHING'
+                ];
+                
+                if (!commonWords.includes(word)) {
+                    isValid = false;
+                    reason = `"${word}" is not a recognized English word`;
+                }
+            }
+
+            // Enhanced scoring system for 7-letter word game
+            let score = 0;
+            if (isValid) {
+                score = word.length; // Base score = word length
+                
+                // Bonus for longer words
+                if (word.length >= 7) {
+                    score += 10; // Big bonus for 7-letter words
+                } else if (word.length >= 5) {
+                    score += 3; // Bonus for 5+ letter words
+                }
+                
+                // Special bonus for using all 7 letters (pangram)
+                if (word.length === 7) {
+                    const uniqueLetters = new Set(word.split(''));
+                    const puzzleLetters = new Set(currentPuzzle.letters);
+                    const isPangram = uniqueLetters.size === puzzleLetters.size && 
+                                     Array.from(uniqueLetters).every(letter => puzzleLetters.has(letter));
+                    if (isPangram) {
+                        score += 20; // Huge bonus for 7-letter pangram
+                    }
+                }
+            }
+
+            document.getElementById('validation-result').innerHTML = `
+                <p style="color: ${isValid ? '#4ecdc4' : '#ff6b6b'};">
+                    <strong>${isValid ? '✅ Valid!' : '❌ Invalid:'}</strong> ${isValid ? `"${word}" earned ${score} points!` : reason}
+                </p>
+            `;
+        }
+
+        function generateFrameHTML() {
+            if (!currentPuzzle) {
+                document.getElementById('frame-result').innerHTML = 
+                    '<p style="color: #ff6b6b;">Please generate a puzzle first!</p>';
+                return;
+            }
+
+            const lettersHtml = currentPuzzle.letters.map((letter, index) => 
+                `<div class="letter ${index === 0 ? 'center-letter' : ''}">${letter}</div>`
+            ).join('');
+
+            const frameHTML = `
+                <!DOCTYPE html>
+                <html>
+                    <head>
+                        <meta property="fc:frame" content="vNext" />
+                        <meta property="fc:frame:image" content="https://your-app.vercel.app/api/game-image?letters=${currentPuzzle.letters.join('')}&score=0&found=" />
+                        <meta property="fc:frame:button:1" content="New Game" />
+                        <meta property="fc:frame:button:2" content="Submit Word" />
+                        <meta property="fc:frame:button:3" content="Leaderboard" />
+                        <meta property="fc:frame:button:4" content="Next Puzzle" />
+                        <meta property="fc:frame:input:text" content="Enter your word..." />
+                        <meta property="fc:frame:post_url" content="https://your-app.vercel.app/api/frame" />
+                        <title>ScraBBly</title>
+                    </head>
+                    <body>
+                        <div class="game-container">
+                            <h1>🎯 ScraBBly</h1>
+                            <div class="letters-container">
+                                ${lettersHtml}
+                            </div>
+                            <div class="score">Score: 0</div>
+                            <p>Form words using the letters above. The center letter must be used in every word!</p>
+                        </div>
+                    </body>
+                </html>
+            `;
+
+            document.getElementById('frame-result').innerHTML = `
+                <h4>Generated Frame HTML:</h4>
+                <textarea style="width: 100%; height: 200px; font-family: monospace; font-size: 12px;">${frameHTML}</textarea>
+            `;
+        }
+
+        function testImageGeneration() {
+            if (!currentPuzzle) {
+                document.getElementById('image-result').innerHTML = 
+                    '<p style="color: #ff6b6b;">Please generate a puzzle first!</p>';
+                return;
+            }
+
+            const imageUrl = `https://your-app.vercel.app/api/game-image?letters=${currentPuzzle.letters.join('')}&score=0&found=`;
+            
+            document.getElementById('image-result').innerHTML = `
+                <h4>Game Image URL:</h4>
+                <p><a href="${imageUrl}" target="_blank" style="color: #4ecdc4;">${imageUrl}</a></p>
+                <p><em>Note: This will only work when deployed to production</em></p>
+            `;
+        }
+
+        // Generate initial puzzle
+        generatePuzzle();
+    </script>
+</body>
+</html>
