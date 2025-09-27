@@ -65,7 +65,7 @@ export default function TestPage() {
 
     // Check if word contains only letters from puzzle (with proper counting)
     const puzzleLetters = [...currentPuzzle.letters];
-    const wordLetters = [...word];
+    const wordLetters = word.split('');
     let isValid = true;
     let reason = '';
 
