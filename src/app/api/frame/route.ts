@@ -109,7 +109,13 @@ async function handleSubmitWord(
       foundWords = [inputText.trim().toUpperCase()];
       const wordScore = game.calculateWordScore(inputText.trim().toUpperCase(), puzzle);
       score = wordScore.points;
-      message = `Great! "${inputText.trim().toUpperCase()}" earned ${score} points!`;
+      
+      // Check if player found the target word (advances to next puzzle)
+      if (validation.isTargetWord) {
+        message = `🎉 Excellent! You found "${inputText.trim().toUpperCase()}"! Moving to next puzzle!`;
+      } else {
+        message = `Great! "${inputText.trim().toUpperCase()}" earned ${score} points!`;
+      }
     } else {
       message = `Invalid word: ${validation.reason}`;
     }
@@ -143,13 +149,19 @@ function generateGameFrame(
   showInput: boolean = false,
   message: string = ''
 ) {
-  const lettersHtml = puzzle.letters.map((letter: string, index: number) => 
-    `<div class="letter ${index === 0 ? 'center-letter' : ''}">${letter}</div>`
+  const lettersHtml = puzzle.letters.map((letter: string) => 
+    `<div class="letter">${letter}</div>`
   ).join('');
 
   const foundWordsHtml = foundWords.length > 0 
     ? `<div class="found-words">Found: ${foundWords.join(', ')}</div>`
     : '';
+
+  const successMessage = showSuccess 
+    ? '<div class="message success">🎉 Puzzle Complete! Moving to next level!</div>'
+    : '';
+
+  const targetHint = `<div class="message hint">🎯 Find the 7-letter word: ${puzzle.targetWord}</div>`;
 
   return `
     <!DOCTYPE html>
@@ -211,9 +223,14 @@ function generateGameFrame(
             color: white;
             box-shadow: 0 3px 6px rgba(0,0,0,0.2);
           }
-          .center-letter {
-            background: #4ecdc4;
-            transform: scale(1.1);
+          .success {
+            background: #d4edda;
+            color: #155724;
+          }
+          
+          .hint {
+            background: #fff3cd;
+            color: #856404;
           }
           @media (min-width: 768px) {
             .letters-container { 
@@ -225,8 +242,12 @@ function generateGameFrame(
               height: 50px; 
               font-size: 24px; 
             }
-            .center-letter { 
-              transform: scale(1.2); 
+            .success {
+              font-size: 16px;
+            }
+            
+            .hint {
+              font-size: 16px;
             }
           }
           .score {
@@ -254,10 +275,12 @@ function generateGameFrame(
             ${lettersHtml}
           </div>
           <div class="score">Score: ${score}</div>
+          ${targetHint}
           ${foundWordsHtml}
+          ${successMessage}
           ${message ? `<div class="message">${message}</div>` : ''}
-          <p>Form words using the 7 letters above. The center letter must be used in every word!</p>
-          <p style="font-size: 12px; opacity: 0.8;">Try to find the longest word possible - bonus points for 7-letter words!</p>
+          <p>Make words from these scrambled letters. Find the 7-letter word to advance!</p>
+          <p style="font-size: 12px; opacity: 0.8;">Bonus points for longer words!</p>
         </div>
       </body>
     </html>

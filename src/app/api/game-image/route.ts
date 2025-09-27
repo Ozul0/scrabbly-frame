@@ -43,13 +43,12 @@ function generateGameImage(letters: string, score: number, found: string) {
   });
 
   const lettersSvg = letterPositions.map((pos, index) => {
-    const isCenter = index === 0;
-    const size = isCenter ? 50 : 40;
-    const fill = isCenter ? '#4ecdc4' : '#ff6b6b';
+    const size = 40;
+    const fill = '#667eea';
     
     return `
       <circle cx="${pos.x}" cy="${pos.y}" r="${size/2 + 5}" fill="${fill}" stroke="white" stroke-width="2"/>
-      <text x="${pos.x}" y="${pos.y + 5}" text-anchor="middle" font-family="Arial, sans-serif" font-size="${isCenter ? '20' : '16'}" font-weight="bold" fill="white">${pos.letter}</text>
+      <text x="${pos.x}" y="${pos.y + 5}" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">${pos.letter}</text>
     `;
   }).join('');
 

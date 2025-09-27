@@ -7,17 +7,17 @@ export default function Home() {
       <div className="w-full max-w-md mx-auto bg-white/10 backdrop-blur-lg rounded-xl p-6 text-center text-white sm:rounded-2xl sm:p-8">
         <h1 className="text-4xl font-bold mb-4">🎯 ScraBBly</h1>
         <p className="text-lg mb-6">
-          Classic 7-letter word game for Farcaster Frames!
+          7-letter word scramble game for Farcaster Frames!
         </p>
         
         <div className="space-y-4">
           <div className="bg-white/20 rounded-lg p-4">
             <h2 className="text-xl font-semibold mb-2">How to Play</h2>
             <ul className="text-sm text-left space-y-1">
-              <li>• Form words using 7 random letters</li>
-              <li>• Use the center letter in every word</li>
-              <li>• Try to find the longest word possible</li>
-              <li>• Bonus points for 7-letter words!</li>
+              <li>• Make words from 7 scrambled letters</li>
+              <li>• Find the 7-letter word to advance</li>
+              <li>• Try to find longer words for bonus points</li>
+              <li>• Complete puzzles to unlock new levels!</li>
             </ul>
           </div>
           
