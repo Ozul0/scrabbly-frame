@@ -17,7 +17,7 @@ CREATE TABLE users (
 CREATE TABLE puzzles (
   id VARCHAR(50) PRIMARY KEY,
   letters TEXT[] NOT NULL,
-  center_letter VARCHAR(1) NOT NULL,
+  target_word VARCHAR(10) NOT NULL,
   difficulty VARCHAR(10) NOT NULL CHECK (difficulty IN ('easy', 'medium', 'hard')),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   total_plays INTEGER DEFAULT 0,

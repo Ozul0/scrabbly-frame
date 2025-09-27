@@ -41,7 +41,7 @@ export interface LeaderboardEntry {
 export interface PuzzleRecord {
   id: string;
   letters: string[];
-  center_letter: string;
+  target_word: string;
   difficulty: string;
   created_at: string;
   total_plays: number;
@@ -186,7 +186,7 @@ export class DatabaseService {
   async savePuzzle(puzzle: {
     id: string;
     letters: string[];
-    centerLetter: string;
+    targetWord: string;
     difficulty: string;
   }): Promise<boolean> {
     try {
@@ -195,7 +195,7 @@ export class DatabaseService {
         .insert({
           id: puzzle.id,
           letters: puzzle.letters,
-          center_letter: puzzle.centerLetter,
+          target_word: puzzle.targetWord,
           difficulty: puzzle.difficulty,
         });
 

@@ -48,326 +48,409 @@
                 border-radius: 10px;
             }
         }
-        button {
+        h1 {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+        }
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 32px;
+                margin: 0 0 15px 0;
+            }
+        }
+        h2 {
+            font-size: 18px;
+            margin: 0 0 10px 0;
+        }
+        @media (min-width: 768px) {
+            h2 {
+                font-size: 22px;
+                margin: 0 0 15px 0;
+            }
+        }
+        .btn {
             background: #4ecdc4;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 3px;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-size: 14px;
-            width: 100%;
-            max-width: 200px;
-        }
-        button:hover {
-            background: #45b7b8;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
         }
         @media (min-width: 768px) {
-            button {
-                padding: 10px 20px;
-                margin: 5px;
-                width: auto;
+            .btn {
+                padding: 12px 24px;
                 font-size: 16px;
+                margin: 8px;
             }
         }
-        .result {
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 5px;
-            text-align: left;
+        .btn:hover {
+            background: #45b7aa;
+            transform: translateY(-2px);
         }
-        .letters-container {
+        .puzzle-display {
+            margin: 15px 0;
+        }
+        .letters {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
             gap: 8px;
             margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        @media (min-width: 768px) {
+            .letters {
+                gap: 12px;
+                margin: 20px 0;
+            }
         }
         .letter {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             background: #ff6b6b;
+            color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
-            color: white;
             box-shadow: 0 3px 6px rgba(0,0,0,0.2);
         }
-        .center-letter {
-            background: #4ecdc4;
-            transform: scale(1.1);
+        @media (min-width: 768px) {
+            .letter {
+                width: 50px;
+                height: 50px;
+                font-size: 22px;
+            }
+        }
+        .target-hint {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 14px;
+            font-weight: bold;
         }
         @media (min-width: 768px) {
-            .letters-container { 
-                gap: 10px; 
-                margin: 20px 0; 
+            .target-hint {
+                font-size: 16px;
+                padding: 12px;
             }
-            .letter { 
-                width: 50px; 
-                height: 50px; 
-                font-size: 24px; 
+        }
+        .input-section {
+            margin: 15px 0;
+        }
+        .word-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        @media (min-width: 768px) {
+            .word-input {
+                padding: 12px;
+                font-size: 18px;
             }
-            .center-letter { 
-                transform: scale(1.2); 
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        @media (min-width: 768px) {
+            .result {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .score-display {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #4ecdc4;
+        }
+        @media (min-width: 768px) {
+            .score-display {
+                font-size: 22px;
+                margin: 15px 0;
+            }
+        }
+        .found-words {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        @media (min-width: 768px) {
+            .found-words {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+        .instructions {
+            font-size: 12px;
+            opacity: 0.8;
+            margin: 5px 0;
+        }
+        @media (min-width: 768px) {
+            .instructions {
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
-        <div class="test-container">
-            <h1>🎯 ScraBBly Frame Testing</h1>
-            <p style="margin-bottom: 20px; font-size: 14px; opacity: 0.9;">
-                Classic 7-letter word game! Make words from 7 random letters. 
-                Try to find the longest word possible - bonus points for 7-letter words!
-            </p>
+    <div class="test-container">
+        <h1>🎯 ScraBBly Frame Testing</h1>
+        <p>7-letter word scramble game! Find words from scrambled letters. Find the 7-letter word to advance to the next puzzle!</p>
+        
+        <div class="test-section">
+            <h2>1. Generate 7-Letter Puzzle</h2>
+            <button class="btn" onclick="generateNewPuzzle()">Generate New Puzzle</button>
             
-            <div class="test-section">
-                <h3>1. Generate 7-Letter Puzzle</h3>
-                <button onclick="generatePuzzle()">Generate New Puzzle</button>
-                <div id="puzzle-result" class="result"></div>
+            <div id="puzzle-display" class="puzzle-display" style="display: none;">
+                <h3>Generated Puzzle:</h3>
+                <div id="letters" class="letters"></div>
+                <div id="target-hint" class="target-hint"></div>
+                <p><strong>Target Word:</strong> <span id="target-word"></span></p>
+                <p><strong>Difficulty:</strong> <span id="difficulty"></span></p>
+                <div class="score-display">Score: <span id="score">0</span></div>
+                <div id="found-words" class="found-words" style="display: none;"></div>
             </div>
-
-        <div class="test-section">
-            <h3>2. Test Word Validation</h3>
-            <input type="text" id="word-input" placeholder="Enter a word to test" style="padding: 10px; margin: 10px; border-radius: 5px; border: none;">
-            <button onclick="validateWord()">Validate Word</button>
-            <div id="validation-result" class="result"></div>
         </div>
-
+        
         <div class="test-section">
-            <h3>3. Test Frame HTML Generation</h3>
-            <button onclick="generateFrameHTML()">Generate Frame HTML</button>
-            <div id="frame-result" class="result"></div>
+            <h2>2. Test Word Validation</h2>
+            <div class="input-section">
+                <input type="text" id="word-input" class="word-input" placeholder="Enter a word..." onkeypress="handleKeyPress(event)">
+                <button class="btn" onclick="validateWord()">Validate Word</button>
+            </div>
+            
+            <div id="validation-result" class="result" style="display: none;"></div>
         </div>
-
+        
         <div class="test-section">
-            <h3>4. Test Image Generation</h3>
-            <button onclick="testImageGeneration()">Test Game Image</button>
-            <div id="image-result" class="result"></div>
+            <h2>3. Frame URLs</h2>
+            <p><strong>Main Frame:</strong> <code>/api/frame</code></p>
+            <p><strong>Game Image:</strong> <code>/api/game-image</code></p>
+            <p><strong>Leaderboard:</strong> <code>/api/leaderboard-image</code></p>
         </div>
     </div>
 
     <script>
         let currentPuzzle = null;
+        let foundWords = [];
+        let score = 0;
 
-        // Mock game logic for testing
-        function generatePuzzle() {
-            // Generate 7 random letters with good word-forming potential
-            const letterSets = {
-                easy: ['A', 'E', 'I', 'O', 'U', 'R', 'S', 'T', 'L', 'N', 'D', 'G', 'B', 'C', 'M', 'P', 'F', 'H', 'V', 'W', 'Y'],
-                medium: ['A', 'E', 'I', 'O', 'U', 'R', 'S', 'T', 'L', 'N', 'D', 'G', 'B', 'C', 'M', 'P', 'F', 'H', 'V', 'W', 'Y', 'K', 'J', 'X', 'Q', 'Z'],
-                hard: ['A', 'E', 'I', 'O', 'U', 'R', 'S', 'T', 'L', 'N', 'D', 'G', 'B', 'C', 'M', 'P', 'F', 'H', 'V', 'W', 'Y', 'K', 'J', 'X', 'Q', 'Z']
+        function generateNewPuzzle() {
+            // Pre-defined 7-letter words for better gameplay
+            const wordSets = {
+                easy: [
+                    'PICTURE', 'STUDENT', 'TEACHER', 'WINTERS', 'SUMMERS', 'FLOWERS', 'GARDENS',
+                    'FRIENDS', 'HAPPILY', 'QUICKLY', 'BEAUTIF', 'HEALTHY', 'WEATHER', 'MORNING'
+                ],
+                medium: [
+                    'PUZZLES', 'SCRABBL', 'MYSTERY', 'FANTASY', 'ADVENTUR', 'CREATIV', 'EXPLORE',
+                    'JOURNEY', 'LIBRARY', 'SCIENCE', 'HISTORY', 'COUNTRY', 'FACTORY', 'VICTORY'
+                ],
+                hard: [
+                    'JUXTAPOS', 'QUIZZING', 'JAZZLIKE', 'QUICKLY', 'XYLOPHON', 'WIZARDRY', 'ZEPHYRS',
+                    'QUIXOTIC', 'JACKPOTS', 'QUACKERY', 'QUIZZERS', 'JACKPOT', 'QUIZZES', 'JAZZIER'
+                ]
             };
+
+            const availableWords = wordSets.medium;
+            const targetWord = availableWords[Math.floor(Math.random() * availableWords.length)];
             
-            const availableLetters = letterSets.medium;
-            const selectedLetters = [];
-            
-            // Ensure we have at least one vowel
-            const vowels = ['A', 'E', 'I', 'O', 'U'];
-            selectedLetters.push(vowels[Math.floor(Math.random() * vowels.length)]);
-            
-            // Add 6 more letters
-            while (selectedLetters.length < 7) {
-                const randomLetter = availableLetters[Math.floor(Math.random() * availableLetters.length)];
-                if (!selectedLetters.includes(randomLetter)) {
-                    selectedLetters.push(randomLetter);
-                }
-            }
-            
-            const shuffled = selectedLetters.sort(() => Math.random() - 0.5);
+            // Shuffle the letters of the target word
+            const shuffledLetters = targetWord.split('').sort(() => Math.random() - 0.5);
             
             currentPuzzle = {
                 id: 'test_' + Date.now(),
-                letters: shuffled,
-                centerLetter: shuffled[0], // First letter is the center
+                letters: shuffledLetters,
+                targetWord: targetWord,
                 difficulty: 'medium'
             };
 
-            const lettersHtml = currentPuzzle.letters.map((letter, index) => 
-                `<div class="letter ${index === 0 ? 'center-letter' : ''}">${letter}</div>`
+            displayPuzzle();
+            resetGame();
+        }
+
+        function displayPuzzle() {
+            if (!currentPuzzle) return;
+
+            const lettersDiv = document.getElementById('letters');
+            const targetHintDiv = document.getElementById('target-hint');
+            const targetWordSpan = document.getElementById('target-word');
+            const difficultySpan = document.getElementById('difficulty');
+            const puzzleDisplay = document.getElementById('puzzle-display');
+
+            // Display letters
+            lettersDiv.innerHTML = currentPuzzle.letters.map(letter => 
+                `<div class="letter">${letter}</div>`
             ).join('');
 
-            document.getElementById('puzzle-result').innerHTML = `
-                <h4>Generated Puzzle:</h4>
-                <div class="letters-container">${lettersHtml}</div>
-                <p><strong>Center Letter:</strong> ${currentPuzzle.centerLetter}</p>
-                <p><strong>Difficulty:</strong> ${currentPuzzle.difficulty}</p>
-            `;
+            // Display target hint
+            targetHintDiv.textContent = `🎯 Find the 7-letter word: ${currentPuzzle.targetWord}`;
+            
+            // Display puzzle info
+            targetWordSpan.textContent = currentPuzzle.targetWord;
+            difficultySpan.textContent = currentPuzzle.difficulty;
+            
+            puzzleDisplay.style.display = 'block';
+        }
+
+        function resetGame() {
+            foundWords = [];
+            score = 0;
+            updateScore();
+            updateFoundWords();
+            clearValidationResult();
         }
 
         function validateWord() {
-            const word = document.getElementById('word-input').value.toUpperCase().trim();
-            
             if (!currentPuzzle) {
-                document.getElementById('validation-result').innerHTML = 
-                    '<p style="color: #ff6b6b;">Please generate a puzzle first!</p>';
+                showValidationResult('Please generate a puzzle first!', 'error');
                 return;
             }
 
+            const wordInput = document.getElementById('word-input');
+            const word = wordInput.value.trim().toUpperCase();
+
+            if (!word) {
+                showValidationResult('Please enter a word', 'error');
+                return;
+            }
+
+            // Check if word is the target word (7-letter word) - this advances the player
+            if (word === currentPuzzle.targetWord) {
+                const wordScore = word.length + 50; // Big bonus for target word
+                score += wordScore;
+                foundWords.push(word);
+                
+                showValidationResult(`🎉 Excellent! You found "${word}"! Moving to next puzzle!`, 'success');
+                wordInput.value = '';
+                updateScore();
+                updateFoundWords();
+                
+                // Auto-generate next puzzle after a delay
+                setTimeout(() => {
+                    generateNewPuzzle();
+                }, 2000);
+                return;
+            }
+            
+            // Check if word is too short
             if (word.length < 3) {
-                document.getElementById('validation-result').innerHTML = 
-                    '<p style="color: #ff6b6b;">Word must be at least 3 letters long</p>';
+                showValidationResult('Word must be at least 3 letters long', 'error');
                 return;
             }
 
-            // Check if word contains only letters from puzzle (with proper counting)
-            const puzzleLetters = [...currentPuzzle.letters];
-            const wordLetters = [...word];
-            let isValid = true;
-            let reason = '';
-
-            // Check if word uses the center letter
-            if (!word.includes(currentPuzzle.centerLetter)) {
-                isValid = false;
-                reason = `Word must contain the center letter '${currentPuzzle.centerLetter}'`;
-            } else {
-                // Check if we can form the word with available letters
-                const availableLetters = [...puzzleLetters];
-                for (const letter of wordLetters) {
-                    const index = availableLetters.indexOf(letter);
-                    if (index === -1) {
-                        isValid = false;
-                        reason = `Letter '${letter}' is not available in this puzzle`;
-                        break;
-                    }
-                    availableLetters.splice(index, 1); // Remove used letter
+            // Check if word can be formed from available letters
+            const availableLetters = [...currentPuzzle.letters];
+            for (const letter of word) {
+                const index = availableLetters.indexOf(letter);
+                if (index === -1) {
+                    showValidationResult(`Letter '${letter}' is not available in this puzzle`, 'error');
+                    return;
                 }
+                availableLetters.splice(index, 1); // Remove used letter
             }
 
-            // Basic dictionary check (simplified for demo)
-            if (isValid) {
-                const commonWords = [
-                    'CAT', 'DOG', 'HOUSE', 'CAR', 'TREE', 'BOOK', 'WATER', 'FIRE', 'EARTH',
-                    'AIR', 'LOVE', 'HOPE', 'DREAM', 'LIGHT', 'DARK', 'GOOD', 'BAD', 'BIG',
-                    'SMALL', 'FAST', 'SLOW', 'HOT', 'COLD', 'NEW', 'OLD', 'YOUNG', 'HAPPY',
-                    'SAD', 'ANGRY', 'CALM', 'PEACE', 'WAR', 'LIFE', 'DEATH', 'TIME', 'SPACE',
-                    'MOON', 'SUN', 'STAR', 'SKY', 'SEA', 'LAND', 'MOUNTAIN', 'RIVER', 'LAKE',
-                    'FOREST', 'DESERT', 'CITY', 'TOWN', 'VILLAGE', 'COUNTRY', 'WORLD', 'EARTH',
-                    'PLANET', 'UNIVERSE', 'GOD', 'SPIRIT', 'SOUL', 'MIND', 'BODY', 'HEART',
-                    'HAND', 'FOOT', 'EYE', 'EAR', 'NOSE', 'MOUTH', 'TOOTH', 'HAIR', 'SKIN',
-                    'BONE', 'BLOOD', 'FLESH', 'MUSCLE', 'BRAIN', 'LUNG', 'HEART', 'LIVER',
-                    'KIDNEY', 'STOMACH', 'INTESTINE', 'VEIN', 'ARTERY', 'NERVE', 'CELL',
-                    'ATOM', 'MOLECULE', 'ELEMENT', 'COMPOUND', 'MIXTURE', 'SOLUTION',
-                    'SOLID', 'LIQUID', 'GAS', 'PLASMA', 'ENERGY', 'FORCE', 'POWER',
-                    'STRENGTH', 'WEAKNESS', 'COURAGE', 'FEAR', 'BRAVERY', 'COWARDICE',
-                    'HONESTY', 'DISHONESTY', 'TRUTH', 'LIE', 'FACT', 'FICTION', 'REALITY',
-                    'FANTASY', 'IMAGINATION', 'CREATIVITY', 'ART', 'MUSIC', 'DANCE',
-                    'POETRY', 'PROSE', 'STORY', 'TALE', 'LEGEND', 'MYTH', 'HISTORY',
-                    'FUTURE', 'PAST', 'PRESENT', 'NOW', 'THEN', 'WHEN', 'WHERE', 'WHY',
-                    'HOW', 'WHAT', 'WHO', 'WHICH', 'WHOSE', 'WHOM', 'THIS', 'THAT',
-                    'THESE', 'THOSE', 'HERE', 'THERE', 'EVERYWHERE', 'NOWHERE', 'SOMEWHERE',
-                    'ANYWHERE', 'ALWAYS', 'NEVER', 'SOMETIMES', 'OFTEN', 'RARELY', 'SELDOM',
-                    'USUALLY', 'NORMALLY', 'TYPICALLY', 'GENERALLY', 'SPECIFICALLY',
-                    'PARTICULARLY', 'ESPECIALLY', 'MAINLY', 'MOSTLY', 'PARTLY', 'COMPLETELY',
-                    'TOTALLY', 'ENTIRELY', 'FULLY', 'HALF', 'QUARTER', 'THIRD', 'DOUBLE',
-                    'TRIPLE', 'SINGLE', 'MULTIPLE', 'MANY', 'FEW', 'SEVERAL', 'SOME',
-                    'ANY', 'ALL', 'NONE', 'NOTHING', 'SOMETHING', 'EVERYTHING', 'ANYTHING'
-                ];
-                
-                if (!commonWords.includes(word)) {
-                    isValid = false;
-                    reason = `"${word}" is not a recognized English word`;
-                }
-            }
+            // Check if word is valid in dictionary (simplified check)
+            const commonWords = [
+                'CAT', 'DOG', 'HOUSE', 'CAR', 'TREE', 'BOOK', 'WATER', 'FIRE', 'EARTH',
+                'AIR', 'LOVE', 'HOPE', 'DREAM', 'LIGHT', 'DARK', 'GOOD', 'BAD', 'BIG',
+                'SMALL', 'FAST', 'SLOW', 'HOT', 'COLD', 'NEW', 'OLD', 'YOUNG', 'HAPPY',
+                'SAD', 'ANGRY', 'CALM', 'PEACE', 'WAR', 'LIFE', 'DEATH', 'TIME', 'SPACE',
+                'RUN', 'WALK', 'JUMP', 'SING', 'DANCE', 'PLAY', 'WORK', 'SLEEP', 'EAT',
+                'DRINK', 'READ', 'WRITE', 'HEAR', 'SEE', 'FEEL', 'TOUCH', 'SMELL', 'TASTE',
+                'JUICE', 'QUICK', 'JUMP', 'JUST', 'JUNE', 'JOKE', 'JOIN', 'JOB', 'JET',
+                'CUTE', 'CUT', 'CUP', 'CUB', 'CUE', 'CURB', 'CURE', 'CURL', 'CURT'
+            ];
 
-            // Enhanced scoring system for 7-letter word game
-            let score = 0;
-            if (isValid) {
-                score = word.length; // Base score = word length
-                
-                // Bonus for longer words
-                if (word.length >= 7) {
-                    score += 10; // Big bonus for 7-letter words
-                } else if (word.length >= 5) {
-                    score += 3; // Bonus for 5+ letter words
-                }
-                
-                // Special bonus for using all 7 letters (pangram)
-                if (word.length === 7) {
-                    const uniqueLetters = new Set(word.split(''));
-                    const puzzleLetters = new Set(currentPuzzle.letters);
-                    const isPangram = uniqueLetters.size === puzzleLetters.size && 
-                                     Array.from(uniqueLetters).every(letter => puzzleLetters.has(letter));
-                    if (isPangram) {
-                        score += 20; // Huge bonus for 7-letter pangram
-                    }
-                }
-            }
-
-            document.getElementById('validation-result').innerHTML = `
-                <p style="color: ${isValid ? '#4ecdc4' : '#ff6b6b'};">
-                    <strong>${isValid ? '✅ Valid!' : '❌ Invalid:'}</strong> ${isValid ? `"${word}" earned ${score} points!` : reason}
-                </p>
-            `;
-        }
-
-        function generateFrameHTML() {
-            if (!currentPuzzle) {
-                document.getElementById('frame-result').innerHTML = 
-                    '<p style="color: #ff6b6b;">Please generate a puzzle first!</p>';
+            if (!commonWords.includes(word)) {
+                showValidationResult(`${word} is not a recognized English word`, 'error');
                 return;
             }
 
-            const lettersHtml = currentPuzzle.letters.map((letter, index) => 
-                `<div class="letter ${index === 0 ? 'center-letter' : ''}">${letter}</div>`
-            ).join('');
-
-            const frameHTML = `
-                <!DOCTYPE html>
-                <html>
-                    <head>
-                        <meta property="fc:frame" content="vNext" />
-                        <meta property="fc:frame:image" content="https://your-app.vercel.app/api/game-image?letters=${currentPuzzle.letters.join('')}&score=0&found=" />
-                        <meta property="fc:frame:button:1" content="New Game" />
-                        <meta property="fc:frame:button:2" content="Submit Word" />
-                        <meta property="fc:frame:button:3" content="Leaderboard" />
-                        <meta property="fc:frame:button:4" content="Next Puzzle" />
-                        <meta property="fc:frame:input:text" content="Enter your word..." />
-                        <meta property="fc:frame:post_url" content="https://your-app.vercel.app/api/frame" />
-                        <title>ScraBBly</title>
-                    </head>
-                    <body>
-                        <div class="game-container">
-                            <h1>🎯 ScraBBly</h1>
-                            <div class="letters-container">
-                                ${lettersHtml}
-                            </div>
-                            <div class="score">Score: 0</div>
-                            <p>Form words using the letters above. The center letter must be used in every word!</p>
-                        </div>
-                    </body>
-                </html>
-            `;
-
-            document.getElementById('frame-result').innerHTML = `
-                <h4>Generated Frame HTML:</h4>
-                <textarea style="width: 100%; height: 200px; font-family: monospace; font-size: 12px;">${frameHTML}</textarea>
-            `;
-        }
-
-        function testImageGeneration() {
-            if (!currentPuzzle) {
-                document.getElementById('image-result').innerHTML = 
-                    '<p style="color: #ff6b6b;">Please generate a puzzle first!</p>';
-                return;
-            }
-
-            const imageUrl = `https://your-app.vercel.app/api/game-image?letters=${currentPuzzle.letters.join('')}&score=0&found=`;
+            // Word is valid
+            let wordScore = word.length; // Base points = word length
             
-            document.getElementById('image-result').innerHTML = `
-                <h4>Game Image URL:</h4>
-                <p><a href="${imageUrl}" target="_blank" style="color: #4ecdc4;">${imageUrl}</a></p>
-                <p><em>Note: This will only work when deployed to production</em></p>
-            `;
+            if (word.length >= 6) {
+                wordScore += 5; // Bonus for longer words
+            } else if (word.length >= 5) {
+                wordScore += 2; // Small bonus for 5-letter words
+            }
+
+            score += wordScore;
+            foundWords.push(word);
+            
+            showValidationResult(`✅ Valid! "${word}" earned ${wordScore} points!`, 'success');
+            wordInput.value = '';
+            updateScore();
+            updateFoundWords();
         }
 
-        // Generate initial puzzle
-        generatePuzzle();
+        function showValidationResult(message, type) {
+            const resultDiv = document.getElementById('validation-result');
+            resultDiv.textContent = message;
+            resultDiv.className = `result ${type}`;
+            resultDiv.style.display = 'block';
+        }
+
+        function clearValidationResult() {
+            const resultDiv = document.getElementById('validation-result');
+            resultDiv.style.display = 'none';
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+        }
+
+        function updateFoundWords() {
+            const foundWordsDiv = document.getElementById('found-words');
+            if (foundWords.length > 0) {
+                foundWordsDiv.textContent = `Found: ${foundWords.join(', ')}`;
+                foundWordsDiv.style.display = 'block';
+            } else {
+                foundWordsDiv.style.display = 'none';
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                validateWord();
+            }
+        }
+
+        // Initialize with a puzzle
+        generateNewPuzzle();
     </script>
 </body>
 </html>

@@ -146,7 +146,7 @@ function generateGameFrame(
   puzzle: any, 
   foundWords: string[], 
   score: number, 
-  showInput: boolean = false,
+  showSuccess: boolean = false,
   message: string = ''
 ) {
   const lettersHtml = puzzle.letters.map((letter: string) => 
