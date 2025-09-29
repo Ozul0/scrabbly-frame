@@ -161,7 +161,7 @@ function generateGameFrame(
     ? '<div class="message success">🎉 Puzzle Complete! Moving to next level!</div>'
     : '';
 
-  const targetHint = `<div class="message hint">🎯 Find the 7-letter word: ${puzzle.targetWord}</div>`;
+  // Don't show target word hint - keep it a mystery!
 
   return `
     <!DOCTYPE html>
@@ -275,12 +275,11 @@ function generateGameFrame(
             ${lettersHtml}
           </div>
           <div class="score">Score: ${score}</div>
-          ${targetHint}
           ${foundWordsHtml}
           ${successMessage}
           ${message ? `<div class="message">${message}</div>` : ''}
-          <p>Make words from these scrambled letters. Find the 7-letter word to advance!</p>
-          <p style="font-size: 12px; opacity: 0.8;">Bonus points for longer words!</p>
+          <p>Make words from these scrambled letters. Find the main word to advance!</p>
+          <p style="font-size: 12px; opacity: 0.8;">Bonus points for smaller words made from the main word!</p>
         </div>
       </body>
     </html>

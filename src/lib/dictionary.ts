@@ -52,6 +52,7 @@ export class DictionaryService {
     const commonWords = [
       'cat', 'dog', 'house', 'car', 'tree', 'book', 'water', 'fire', 'earth',
       'air', 'love', 'hope', 'dream', 'light', 'dark', 'good', 'bad', 'big',
+      'fan', 'ant', 'any', 'art', 'at', 'cut', 'cup', 'cub', 'cue', 'curb', 'cure', 'curl', 'curt',
       'small', 'fast', 'slow', 'hot', 'cold', 'new', 'old', 'young', 'happy',
       'sad', 'angry', 'calm', 'peace', 'war', 'life', 'death', 'time', 'space',
       'moon', 'sun', 'star', 'sky', 'sea', 'land', 'mountain', 'river', 'lake',

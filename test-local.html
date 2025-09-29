@@ -227,7 +227,7 @@
 <body>
     <div class="test-container">
         <h1>🎯 ScraBBly Frame Testing</h1>
-        <p>7-letter word scramble game! Find words from scrambled letters. Find the 7-letter word to advance to the next puzzle!</p>
+        <p>Word scramble game! Find words from scrambled letters (7-10 letters). Find the main word to advance to the next puzzle!</p>
         
         <div class="test-section">
             <h2>1. Generate 7-Letter Puzzle</h2>
@@ -315,8 +315,8 @@
                 `<div class="letter">${letter}</div>`
             ).join('');
 
-            // Display target hint
-            targetHintDiv.textContent = `🎯 Find the 7-letter word: ${currentPuzzle.targetWord}`;
+            // Display target hint (without revealing the word!)
+            targetHintDiv.textContent = `🎯 Find the ${currentPuzzle.targetWord.length}-letter word to advance!`;
             
             // Display puzzle info
             targetWordSpan.textContent = currentPuzzle.targetWord;
@@ -402,10 +402,15 @@
             // Word is valid
             let wordScore = word.length; // Base points = word length
             
+            // Bonus points for smaller words made from the main word
             if (word.length >= 6) {
-                wordScore += 5; // Bonus for longer words
+                wordScore += 10; // Big bonus for 6+ letter words
             } else if (word.length >= 5) {
-                wordScore += 2; // Small bonus for 5-letter words
+                wordScore += 5; // Bonus for 5-letter words
+            } else if (word.length >= 4) {
+                wordScore += 2; // Small bonus for 4-letter words
+            } else if (word.length >= 3) {
+                wordScore += 1; // Tiny bonus for 3-letter words
             }
 
             score += wordScore;

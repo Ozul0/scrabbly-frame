@@ -140,7 +140,7 @@ export default function TestPage() {
       }}>
         <h1 style={{ margin: '0 0 10px 0', fontSize: '24px' }}>🎯 ScraBBly Frame Testing</h1>
         <p style={{ margin: '0', fontSize: '14px', opacity: '0.9' }}>
-          7-letter word scramble game! Find words from scrambled letters. Find the 7-letter word to advance to the next puzzle!
+          Word scramble game! Find words from scrambled letters (7-10 letters). Find the main word to advance to the next puzzle!
         </p>
       </div>
       
@@ -206,7 +206,7 @@ export default function TestPage() {
               fontSize: '14px',
               fontWeight: 'bold'
             }}>
-              🎯 Find the 7-letter word: {currentPuzzle.targetWord}
+              🎯 Find the {currentPuzzle.targetWord.length}-letter word to advance!
             </div>
             <p style={{ margin: '5px 0', color: '#666' }}>
               <strong>Target Word:</strong> {currentPuzzle.targetWord}

@@ -33,19 +33,34 @@ export class ScraBBlyGame {
   }
 
   generatePuzzle(difficulty: 'easy' | 'medium' | 'hard' = 'medium'): Puzzle {
-    // Pre-defined 7-letter words for better gameplay
+    // Mixed length words (7-10 letters) for better gameplay
     const wordSets = {
       easy: [
+        // 7 letters
         'PICTURE', 'STUDENT', 'TEACHER', 'WINTERS', 'SUMMERS', 'FLOWERS', 'GARDENS',
-        'FRIENDS', 'HAPPILY', 'QUICKLY', 'BEAUTIF', 'HEALTHY', 'WEATHER', 'MORNING'
+        'FRIENDS', 'HAPPILY', 'QUICKLY', 'BEAUTIF', 'HEALTHY', 'WEATHER', 'MORNING',
+        // 8 letters  
+        'CREATURE', 'MOUNTAIN', 'BIRTHDAY', 'CHILDREN', 'WONDERED', 'HAPPIEST', 'SUNSHINE',
+        'COMPUTER', 'BROTHER', 'SISTER', 'HOSPITAL', 'LIBRARY', 'SCHOOL', 'COLLEGE'
       ],
       medium: [
-        'PUZZLES', 'SCRABBL', 'MYSTERY', 'FANTASY', 'ADVENTUR', 'CREATIV', 'EXPLORE',
-        'JOURNEY', 'LIBRARY', 'SCIENCE', 'HISTORY', 'COUNTRY', 'FACTORY', 'VICTORY'
+        // 7 letters
+        'MYSTERY', 'FANTASY', 'ADVENTUR', 'EXPLORE', 'JOURNEY', 'SCIENCE', 'HISTORY', 
+        'COUNTRY', 'FACTORY', 'VICTORY', 'PUZZLES', 'SCRABBL',
+        // 8 letters
+        'CREATIVE', 'MYSTERIO', 'ADVENTUR', 'EXPLORER', 'JOURNEYS', 'SCIENTIF', 'HISTORIC',
+        'COUNTRYS', 'FACTORYS', 'VICTORYS', 'PUZZLING', 'SCRABBLE',
+        // 9 letters
+        'CREATIVITY', 'MYSTERIES', 'ADVENTURES', 'EXPLORERS', 'JOURNEYS', 'SCIENTIFIC'
       ],
       hard: [
-        'JUXTAPOS', 'QUIZZING', 'JAZZLIKE', 'QUICKLY', 'XYLOPHON', 'WIZARDRY', 'ZEPHYRS',
-        'QUIXOTIC', 'JACKPOTS', 'QUACKERY', 'QUIZZERS', 'JACKPOT', 'QUIZZES', 'JAZZIER'
+        // 8 letters
+        'JUXTAPOS', 'QUIZZING', 'JAZZLIKE', 'XYLOPHON', 'WIZARDRY', 'ZEPHYRS',
+        'QUIXOTIC', 'JACKPOTS', 'QUACKERY', 'QUIZZERS', 'JACKPOT', 'QUIZZES',
+        // 9 letters
+        'JUXTAPOSE', 'QUIZZINGS', 'JAZZLIKES', 'XYLOPHONS', 'WIZARDRYS', 'ZEPHYRS',
+        // 10 letters
+        'JUXTAPOSES', 'QUIZZINGS', 'JAZZLIKES', 'XYLOPHONS', 'WIZARDRYS', 'ZEPHYRS'
       ]
     };
 
@@ -100,19 +115,26 @@ export class ScraBBlyGame {
     const wordLength = word.length;
     let points = wordLength; // Base points = word length
     
-    // Bonus for finding the target 7-letter word (advances player)
+    // Bonus for finding the target word (advances player)
     if (word === puzzle.targetWord) {
-      points += 50; // Huge bonus for completing the puzzle
-    } else if (wordLength >= 6) {
-      points += 5; // Bonus for longer words
-    } else if (wordLength >= 5) {
-      points += 2; // Small bonus for 5-letter words
+      points += 100; // Huge bonus for completing the puzzle
+    } else {
+      // Bonus points for smaller words made from the main word
+      if (wordLength >= 6) {
+        points += 10; // Big bonus for 6+ letter words
+      } else if (wordLength >= 5) {
+        points += 5; // Bonus for 5-letter words
+      } else if (wordLength >= 4) {
+        points += 2; // Small bonus for 4-letter words
+      } else if (wordLength >= 3) {
+        points += 1; // Tiny bonus for 3-letter words
+      }
     }
 
     return {
       word,
       points,
-      isBonus: word === puzzle.targetWord || wordLength >= 5
+      isBonus: word === puzzle.targetWord || wordLength >= 4
     };
   }
 
