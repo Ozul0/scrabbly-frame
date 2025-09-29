@@ -179,9 +179,9 @@ function generateGameFrame(
         <style>
           * { box-sizing: border-box; }
           body { 
-            font-family: Arial, sans-serif; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
             margin: 0; 
-            padding: 10px; 
+            padding: 8px; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-align: center;
@@ -190,81 +190,122 @@ function generateGameFrame(
           .game-container {
             max-width: 100%;
             margin: 0 auto;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            padding: 15px;
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            color: #333;
           }
           @media (min-width: 768px) {
-            body { padding: 20px; }
+            body { padding: 16px; }
             .game-container { 
-              max-width: 400px; 
-              border-radius: 20px; 
-              padding: 20px; 
+              max-width: 450px; 
+              border-radius: 24px; 
+              padding: 24px; 
             }
+          }
+          h1 {
+            font-size: 28px;
+            margin: 0 0 16px 0;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
           }
           .letters-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 8px;
-            margin: 15px 0;
+            gap: 12px;
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 16px;
           }
           .letter {
-            width: 45px;
-            height: 45px;
-            background: #ff6b6b;
-            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 22px;
+            font-weight: 700;
             color: white;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+          }
+          .letter:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
           }
           .success {
-            background: #d4edda;
-            color: #155724;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 12px 0;
+            font-size: 14px;
+            font-weight: 600;
           }
           
           .hint {
-            background: #fff3cd;
-            color: #856404;
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            margin: 12px 0;
+            font-size: 14px;
+            font-weight: 600;
           }
           @media (min-width: 768px) {
             .letters-container { 
-              gap: 10px; 
-              margin: 20px 0; 
+              gap: 16px; 
+              margin: 24px 0; 
+              padding: 24px;
             }
             .letter { 
-              width: 50px; 
-              height: 50px; 
-              font-size: 24px; 
+              width: 60px; 
+              height: 60px; 
+              font-size: 26px; 
             }
-            .success {
+            .success, .hint {
               font-size: 16px;
-            }
-            
-            .hint {
-              font-size: 16px;
+              padding: 16px;
             }
           }
           .score {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 20px 0;
+            font-size: 20px;
+            font-weight: 700;
+            margin: 16px 0;
+            color: #667eea;
           }
           .found-words {
-            margin: 10px 0;
-            font-size: 16px;
+            margin: 12px 0;
+            font-size: 14px;
+            background: linear-gradient(135deg, #e8f5e8, #d4edda);
+            color: #155724;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 500;
           }
           .message {
-            margin: 10px 0;
-            padding: 10px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
+            margin: 12px 0;
+            padding: 12px;
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-radius: 12px;
             font-size: 14px;
+            color: #856404;
+            font-weight: 500;
+          }
+          .instructions {
+            font-size: 13px;
+            color: #666;
+            margin: 8px 0;
+            line-height: 1.4;
           }
         </style>
       </head>
@@ -278,8 +319,11 @@ function generateGameFrame(
           ${foundWordsHtml}
           ${successMessage}
           ${message ? `<div class="message">${message}</div>` : ''}
-          <p>Make words from these scrambled letters. Find the main word to advance!</p>
-          <p style="font-size: 12px; opacity: 0.8;">Bonus points for smaller words made from the main word!</p>
+          <div class="instructions">
+            Make words from these scrambled letters.<br>
+            Find the main word to advance to the next puzzle!<br>
+            <strong>Bonus points for smaller words!</strong>
+          </div>
         </div>
       </body>
     </html>

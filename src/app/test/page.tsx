@@ -208,9 +208,7 @@ export default function TestPage() {
             }}>
               🎯 Find the {currentPuzzle.targetWord.length}-letter word to advance!
             </div>
-            <p style={{ margin: '5px 0', color: '#666' }}>
-              <strong>Target Word:</strong> {currentPuzzle.targetWord}
-            </p>
+            {/* Target word hidden for challenge */}
             <p style={{ margin: '5px 0', color: '#666' }}>
               <strong>Difficulty:</strong> {currentPuzzle.difficulty}
             </p>
