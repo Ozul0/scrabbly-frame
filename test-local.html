@@ -266,6 +266,8 @@
         let currentPuzzle = null;
         let foundWords = [];
         let score = 0;
+        let usedWords = [];
+        const MAX_WORDS_BEFORE_REPEAT = 300;
 
         function generateNewPuzzle() {
             // Pre-defined 7-letter words for better gameplay
@@ -285,7 +287,25 @@
             };
 
             const availableWords = wordSets.medium;
-            const targetWord = availableWords[Math.floor(Math.random() * availableWords.length)];
+            
+            // Filter out recently used words
+            let candidateWords = availableWords.filter(word => !usedWords.includes(word));
+            
+            // If we've used too many words, reset the used words list
+            if (usedWords.length >= MAX_WORDS_BEFORE_REPEAT) {
+                usedWords = [];
+                candidateWords = availableWords; // Use all words again
+            }
+            
+            // If no candidates available, use all words
+            if (candidateWords.length === 0) {
+                candidateWords = availableWords;
+            }
+            
+            const targetWord = candidateWords[Math.floor(Math.random() * candidateWords.length)];
+            
+            // Add to used words list
+            usedWords.push(targetWord);
             
             // Shuffle the letters of the target word
             const shuffledLetters = targetWord.split('').sort(() => Math.random() - 0.5);
