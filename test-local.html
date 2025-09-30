@@ -230,7 +230,7 @@
         <p>Word scramble game! Find words from scrambled letters (7-10 letters). Find the main word to advance to the next puzzle!</p>
         
         <div class="test-section">
-            <h2>1. Generate 7-Letter Puzzle</h2>
+            <h2>🎮 Current Puzzle</h2>
             <button class="btn" onclick="generateNewPuzzle()">Generate New Puzzle</button>
             
             <div id="puzzle-display" class="puzzle-display" style="display: none;">
@@ -245,7 +245,7 @@
         </div>
         
         <div class="test-section">
-            <h2>2. Test Word Validation</h2>
+            <h2>🔤 Submit Word</h2>
             <div class="input-section">
                 <input type="text" id="word-input" class="word-input" placeholder="Enter a word..." onkeypress="handleKeyPress(event)">
                 <button class="btn" onclick="validateWord()">Validate Word</button>
@@ -254,12 +254,6 @@
             <div id="validation-result" class="result" style="display: none;"></div>
         </div>
         
-        <div class="test-section">
-            <h2>3. Frame URLs</h2>
-            <p><strong>Main Frame:</strong> <code>/api/frame</code></p>
-            <p><strong>Game Image:</strong> <code>/api/game-image</code></p>
-            <p><strong>Leaderboard:</strong> <code>/api/leaderboard-image</code></p>
-        </div>
     </div>
 
     <script>

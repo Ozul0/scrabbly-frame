@@ -138,10 +138,10 @@ export default function TestPage() {
         textAlign: 'center',
         marginBottom: '20px'
       }}>
-        <h1 style={{ margin: '0 0 10px 0', fontSize: '24px' }}>🎯 ScraBBly Frame Testing</h1>
-        <p style={{ margin: '0', fontSize: '14px', opacity: '0.9' }}>
-          Word scramble game! Find words from scrambled letters (7-10 letters). Find the main word to advance to the next puzzle!
-        </p>
+                <h1 style={{ margin: '0 0 10px 0', fontSize: '28px', background: 'linear-gradient(135deg, #667eea, #764ba2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontWeight: '800' }}>🎯 ScraBBly</h1>
+                <p style={{ margin: '0', fontSize: '16px', opacity: '0.9' }}>
+                  Word scramble game! Find words from scrambled letters (7-10 letters). Find the main word to advance to the next puzzle!
+                </p>
       </div>
       
       <div style={{
@@ -151,7 +151,7 @@ export default function TestPage() {
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
         marginBottom: '20px'
       }}>
-        <h2 style={{ color: '#333', marginBottom: '15px' }}>1. Generate 7-Letter Puzzle</h2>
+        <h2 style={{ color: '#333', marginBottom: '15px' }}>🎮 Current Puzzle</h2>
         <button 
           onClick={generatePuzzle}
           style={{
@@ -238,7 +238,7 @@ export default function TestPage() {
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
         marginBottom: '20px'
       }}>
-        <h2 style={{ color: '#333', marginBottom: '15px' }}>2. Test Word Validation</h2>
+        <h2 style={{ color: '#333', marginBottom: '15px' }}>🔤 Submit Word</h2>
         <div style={{ marginBottom: '15px' }}>
           <input
             type="text"
@@ -302,19 +302,6 @@ export default function TestPage() {
         )}
       </div>
       
-      <div style={{
-        background: 'white',
-        padding: '20px',
-        borderRadius: '15px',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-      }}>
-        <h2 style={{ color: '#333', marginBottom: '15px' }}>3. Frame URLs</h2>
-        <div style={{ fontSize: '14px', color: '#666' }}>
-          <p><strong>Main Frame:</strong> <code>/api/frame</code></p>
-          <p><strong>Game Image:</strong> <code>/api/game-image</code></p>
-          <p><strong>Leaderboard:</strong> <code>/api/leaderboard-image</code></p>
-        </div>
-      </div>
       
       <style jsx>{`
         @media (max-width: 480px) {
