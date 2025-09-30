@@ -309,37 +309,45 @@ export default function TestPage() {
         boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
         marginBottom: '20px'
       }}>
-        <h2 style={{ color: '#333', marginBottom: '15px' }}>🏆 Leaderboards</h2>
+        <h2 style={{ color: '#333', marginBottom: '15px' }}>🔗 Leaderboard Links</h2>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <div>
-            <h3 style={{ color: '#667eea', marginBottom: '10px' }}>Weekly Leaderboard</h3>
-            <img 
-              src="/api/leaderboard-image?type=weekly" 
-              alt="Weekly Leaderboard"
+            <h3 style={{ color: '#667eea', marginBottom: '10px' }}>📅 Weekly Leaderboard Frame</h3>
+            <a 
+              href="/api/weekly-leaderboard-frame" 
+              target="_blank"
               style={{ 
-                width: '100%', 
-                maxWidth: '400px', 
-                height: 'auto',
-                borderRadius: '10px',
-                border: '2px solid #e9ecef'
+                display: 'inline-block',
+                padding: '10px 20px',
+                background: '#4ecdc4',
+                color: 'white',
+                textDecoration: 'none',
+                borderRadius: '8px',
+                fontWeight: 'bold'
               }}
-            />
+            >
+              View Weekly Leaderboard
+            </a>
           </div>
           
           <div>
-            <h3 style={{ color: '#667eea', marginBottom: '10px' }}>All-Time Leaderboard</h3>
-            <img 
-              src="/api/leaderboard-image?type=alltime" 
-              alt="All-Time Leaderboard"
+            <h3 style={{ color: '#667eea', marginBottom: '10px' }}>👑 All-Time Leaderboard Frame</h3>
+            <a 
+              href="/api/alltime-leaderboard-frame" 
+              target="_blank"
               style={{ 
-                width: '100%', 
-                maxWidth: '400px', 
-                height: 'auto',
-                borderRadius: '10px',
-                border: '2px solid #e9ecef'
+                display: 'inline-block',
+                padding: '10px 20px',
+                background: '#ff6b6b',
+                color: 'white',
+                textDecoration: 'none',
+                borderRadius: '8px',
+                fontWeight: 'bold'
               }}
-            />
+            >
+              View All-Time Leaderboard
+            </a>
           </div>
         </div>
       </div>
