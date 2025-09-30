@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     const puzzle = game.generatePuzzle('medium');
     await db.savePuzzle(puzzle);
 
-    const frameHtml = generateGameFrame(puzzle, [], 0, false);
+    const frameHtml = generateGameFrame(puzzle, [], 0, 0, false);
     
     return new NextResponse(frameHtml, {
       headers: {
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
         return handleNewGame(game, db);
       
       case 2: // Submit Word
-        return handleSubmitWord(game, db, user.id, inputText, castHash);
+        return handleSubmitWord(game, db, user.id, inputText, castHash, request);
       
       case 3: // Leaderboard
         return handleLeaderboard(db);
@@ -77,7 +77,7 @@ async function handleNewGame(game: ScraBBlyGame, db: DatabaseService) {
   const puzzle = game.generatePuzzle('medium'); // Always generates 7 letters
   await db.savePuzzle(puzzle);
 
-  const frameHtml = generateGameFrame(puzzle, [], 0, false);
+  const frameHtml = generateGameFrame(puzzle, [], 0, 0, false);
   
   return new NextResponse(frameHtml, {
     headers: {
@@ -91,7 +91,8 @@ async function handleSubmitWord(
   db: DatabaseService, 
   userId: string, 
   inputText: string,
-  castHash: string
+  castHash: string,
+  request: NextRequest
 ) {
   // In a real implementation, you'd retrieve the current game state
   // For now, we'll create a new puzzle and validate the word
@@ -99,8 +100,14 @@ async function handleSubmitWord(
   await db.savePuzzle(puzzle);
 
   let foundWords: string[] = [];
-  let score = 0;
+  let currentScore = 0;
+  let totalScore = 0;
   let message = '';
+
+  // Get existing total score from query params or start at 0
+  const { searchParams } = new URL(request.url);
+  const existingScore = parseInt(searchParams.get('totalScore') || '0');
+  totalScore = existingScore;
 
   if (inputText && inputText.trim()) {
     const validation = await game.validateWord(inputText.trim(), puzzle);
@@ -108,20 +115,21 @@ async function handleSubmitWord(
     if (validation.isValid) {
       foundWords = [inputText.trim().toUpperCase()];
       const wordScore = game.calculateWordScore(inputText.trim().toUpperCase(), puzzle);
-      score = wordScore.points;
+      currentScore = wordScore.points;
+      totalScore = existingScore + currentScore;
       
       // Check if player found the target word (advances to next puzzle)
       if (validation.isTargetWord) {
-        message = `🎉 Excellent! You found "${inputText.trim().toUpperCase()}"! Moving to next puzzle!`;
+        message = `🎉 Excellent! You found "${inputText.trim().toUpperCase()}"! +${currentScore} pts (Total: ${totalScore})`;
       } else {
-        message = `Great! "${inputText.trim().toUpperCase()}" earned ${score} points!`;
+        message = `Great! "${inputText.trim().toUpperCase()}" earned ${currentScore} points! (Total: ${totalScore})`;
       }
     } else {
       message = `Invalid word: ${validation.reason}`;
     }
   }
 
-  const frameHtml = generateGameFrame(puzzle, foundWords, score, true, message);
+  const frameHtml = generateGameFrame(puzzle, foundWords, currentScore, totalScore, true, message);
   
   return new NextResponse(frameHtml, {
     headers: {
@@ -145,7 +153,8 @@ async function handleLeaderboard(db: DatabaseService) {
 function generateGameFrame(
   puzzle: any, 
   foundWords: string[], 
-  score: number, 
+  currentScore: number,
+  totalScore: number,
   showSuccess: boolean = false,
   message: string = ''
 ) {
@@ -168,13 +177,13 @@ function generateGameFrame(
     <html>
       <head>
         <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="${process.env.NEXT_PUBLIC_APP_URL}/api/game-image?letters=${puzzle.letters.join('')}&score=${score}&found=${foundWords.join(',')}" />
+                <meta property="fc:frame:image" content="${process.env.NEXT_PUBLIC_APP_URL}/api/game-image?letters=${puzzle.letters.join('')}&score=${currentScore}&totalScore=${totalScore}&found=${foundWords.join(',')}" />
         <meta property="fc:frame:button:1" content="New Game" />
         <meta property="fc:frame:button:2" content="Submit Word" />
         <meta property="fc:frame:button:3" content="Leaderboard" />
         <meta property="fc:frame:button:4" content="Next Puzzle" />
         <meta property="fc:frame:input:text" content="Enter your word..." />
-        <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_APP_URL}/api/frame" />
+        <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_APP_URL}/api/frame?totalScore=${totalScore}" />
         <title>ScraBBly</title>
         <style>
           * { box-sizing: border-box; }
@@ -205,14 +214,29 @@ function generateGameFrame(
               padding: 24px; 
             }
           }
+          .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+          }
           h1 {
             font-size: 28px;
-            margin: 0 0 16px 0;
+            margin: 0;
             background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 800;
+          }
+          .total-score {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
           }
           .letters-container {
             display: flex;
@@ -311,11 +335,14 @@ function generateGameFrame(
       </head>
       <body>
         <div class="game-container">
-          <h1>🎯 ScraBBly</h1>
+          <div class="header">
+            <h1>🎯 ScraBBly</h1>
+            <div class="total-score">Total: ${totalScore}</div>
+          </div>
           <div class="letters-container">
             ${lettersHtml}
           </div>
-          <div class="score">Score: ${score}</div>
+          <div class="score">Current: ${currentScore}</div>
           ${foundWordsHtml}
           ${successMessage}
           ${message ? `<div class="message">${message}</div>` : ''}

@@ -8,10 +8,11 @@ export async function GET(request: NextRequest) {
     const url = new URL(request.url);
     const letters = url.searchParams.get('letters') || '';
     const score = parseInt(url.searchParams.get('score') || '0');
+    const totalScore = parseInt(url.searchParams.get('totalScore') || '0');
     const found = url.searchParams.get('found') || '';
     
     // Generate SVG image
-    const svg = generateGameImage(letters, score, found);
+    const svg = generateGameImage(letters, score, totalScore, found);
     
     return new NextResponse(svg, {
       headers: {
@@ -25,7 +26,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function generateGameImage(letters: string, score: number, found: string) {
+function generateGameImage(letters: string, score: number, totalScore: number, found: string) {
   const letterArray = letters.split('');
   const foundWords = found ? found.split(',') : [];
   
@@ -69,6 +70,10 @@ function generateGameImage(letters: string, score: number, found: string) {
       
       <!-- Title -->
       <text x="200" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white">🎯 ScraBBly</text>
+      
+      <!-- Total Score in top right -->
+      <circle cx="350" cy="40" r="25" fill="#4ecdc4" stroke="white" stroke-width="2"/>
+      <text x="350" y="47" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">${totalScore}</text>
       
       <!-- Letters in circle -->
       ${lettersSvg}
