@@ -302,6 +302,47 @@ export default function TestPage() {
         )}
       </div>
       
+      <div style={{
+        background: 'white',
+        padding: '20px',
+        borderRadius: '15px',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+        marginBottom: '20px'
+      }}>
+        <h2 style={{ color: '#333', marginBottom: '15px' }}>🏆 Leaderboards</h2>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <div>
+            <h3 style={{ color: '#667eea', marginBottom: '10px' }}>Weekly Leaderboard</h3>
+            <img 
+              src="/api/leaderboard-image?type=weekly" 
+              alt="Weekly Leaderboard"
+              style={{ 
+                width: '100%', 
+                maxWidth: '400px', 
+                height: 'auto',
+                borderRadius: '10px',
+                border: '2px solid #e9ecef'
+              }}
+            />
+          </div>
+          
+          <div>
+            <h3 style={{ color: '#667eea', marginBottom: '10px' }}>All-Time Leaderboard</h3>
+            <img 
+              src="/api/leaderboard-image?type=alltime" 
+              alt="All-Time Leaderboard"
+              style={{ 
+                width: '100%', 
+                maxWidth: '400px', 
+                height: 'auto',
+                borderRadius: '10px',
+                border: '2px solid #e9ecef'
+              }}
+            />
+          </div>
+        </div>
+      </div>
       
       <style jsx>{`
         @media (max-width: 480px) {

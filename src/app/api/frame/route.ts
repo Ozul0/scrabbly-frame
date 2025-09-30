@@ -342,7 +342,7 @@ function generateGameFrame(
           <div class="letters-container">
             ${lettersHtml}
           </div>
-          <div class="score">Current: ${currentScore}</div>
+          <div class="score">Current: ${currentScore || '0'}</div>
           ${foundWordsHtml}
           ${successMessage}
           ${message ? `<div class="message">${message}</div>` : ''}
