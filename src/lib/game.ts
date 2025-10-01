@@ -38,7 +38,7 @@ export class ScraBBlyGame {
     // Mixed length words (7-10 letters) for better gameplay
     const wordSets = {
       easy: [
-        // 7 letters
+        // 7-10 letters
         'PICTURE', 'STUDENT', 'TEACHER', 'WINTERS', 'SUMMERS', 'FLOWERS', 'GARDENS',
         'FRIENDS', 'HAPPILY', 'QUICKLY', 'BEAUTIFUL', 'HEALTHY', 'WEATHER', 'MORNING',
         'FAMILY', 'VACATION', 'HOLIDAY', 'BIRTHDAY', 'WEEKEND', 'PURPOSE', 'COUNTRY',
