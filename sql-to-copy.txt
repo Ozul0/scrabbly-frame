@@ -1,4 +1,6 @@
--- Supabase database schema for Word Cookies Frame
+-- Copy this ENTIRE content into Supabase SQL Editor
+
+-- Supabase database schema for ScraBBly Frame
 
 -- Enable necessary extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
