@@ -59,18 +59,18 @@ export async function POST(request: NextRequest) {
         return handleSubmitWord(game, db, user.id, inputText, castHash, request);
       
       case 3: // Weekly Leaderboard
-        return new NextResponse('', {
-          status: 302,
-          headers: {
-            'Location': `${process.env.NEXT_PUBLIC_APP_URL}/api/weekly-leaderboard-frame`,
-          },
-        });
+              return new NextResponse('', {
+                status: 302,
+                headers: {
+                  'Location': 'https://scrabbly-frame.vercel.app/api/weekly-leaderboard-frame',
+                },
+              });
       
       case 4: // All-Time Leaderboard
         return new NextResponse('', {
           status: 302,
           headers: {
-            'Location': `${process.env.NEXT_PUBLIC_APP_URL}/api/alltime-leaderboard-frame`,
+            'Location': 'https://scrabbly-frame.vercel.app/api/alltime-leaderboard-frame',
           },
         });
       
@@ -187,13 +187,13 @@ function generateGameFrame(
     <html>
       <head>
         <meta property="fc:frame" content="vNext" />
-                <meta property="fc:frame:image" content="${process.env.NEXT_PUBLIC_APP_URL}/api/game-image?letters=${puzzle.letters.join('')}&score=${currentScore}&totalScore=${totalScore}&found=${foundWords.join(',')}" />
+                <meta property="fc:frame:image" content="https://scrabbly-frame.vercel.app/api/game-image?letters=${puzzle.letters.join('')}&score=${currentScore}&totalScore=${totalScore}&found=${foundWords.join(',')}" />
         <meta property="fc:frame:button:1" content="New Game" />
         <meta property="fc:frame:button:2" content="Submit Word" />
         <meta property="fc:frame:button:3" content="📅 Weekly" />
         <meta property="fc:frame:button:4" content="👑 All-Time" />
         <meta property="fc:frame:input:text" content="Enter your word..." />
-        <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_APP_URL}/api/frame?totalScore=${totalScore}" />
+                <meta property="fc:frame:post_url" content="https://scrabbly-frame.vercel.app/api/frame?totalScore=${totalScore}" />
         <title>ScraBBly</title>
         <style>
           * { box-sizing: border-box; }
