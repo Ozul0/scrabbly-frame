@@ -10,6 +10,7 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
+    "setup-supabase": "node setup-supabase.js",
     "deploy": "powershell -ExecutionPolicy Bypass -File scripts/deploy.ps1"
   },
   "dependencies": {
@@ -18,7 +19,8 @@
     "react-dom": "^18.0.0",
     "@supabase/supabase-js": "^2.38.0",
     "crypto": "^1.0.1",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
