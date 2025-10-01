@@ -1,0 +1,28 @@
+{
+  "name": "ScraBBly",
+  "description": "🎯 Word scramble game! Find words from scrambled letters. Can you find the main word to advance?",
+  "icon": "https://scrabbly-frame.vercel.app/icon.png",
+  "homeUrl": "https://scrabbly-frame.vercel.app/game.html",
+  "screenshots": [
+    "https://scrabbly-frame.vercel.app/screenshot1.png",
+    "https://scrabbly-frame.vercel.app/screenshot2.png"
+  ],
+  "category": "Games",
+  "tags": ["word-game", "puzzle", "scrabble", "words"],
+  "author": {
+    "name": "ScraBBly Team",
+    "url": "https://scrabbly-frame.vercel.app"
+  },
+  "version": "1.0.0",
+  "minClientVersion": "2024.1.0",
+  "permissions": [
+    "user:read",
+    "cast:write"
+  ],
+  "features": {
+    "frame": true,
+    "miniApp": true,
+    "mobile": true,
+    "desktop": true
+  }
+}

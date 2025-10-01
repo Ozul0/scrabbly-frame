@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 ScraBBly - Farcaster Mini App</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3em;
+            margin: 0 0 20px 0;
+        }
+        .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+        }
+        .description {
+            font-size: 1.2em;
+            color: #666;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        .features {
+            text-align: left;
+            margin: 30px 0;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+        }
+        .feature-icon {
+            font-size: 1.5em;
+            margin-right: 15px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        .instructions {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .instructions h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .instructions ol {
+            color: #666;
+        }
+        .instructions li {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🎯</div>
+        <h1>ScraBBly</h1>
+        
+        <div class="description">
+            The ultimate word scramble game for Farcaster! Find words from scrambled letters and compete with friends.
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🎮</div>
+                <div>Interactive word puzzle gameplay</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🏆</div>
+                <div>Live leaderboards (Weekly & All-Time)</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📱</div>
+                <div>Optimized for mobile and desktop</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔄</div>
+                <div>300+ unique puzzles with anti-repetition</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <div>Real-time scoring and progress tracking</div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>🚀 How to Install as Farcaster Mini App:</h3>
+            <ol>
+                <li><strong>Copy this URL:</strong> <code>https://scrabbly-frame.vercel.app/mini-app.html</code></li>
+                <li><strong>Open Farcaster</strong> (Warpcast app or web)</li>
+                <li><strong>Go to Mini Apps</strong> in the sidebar</li>
+                <li><strong>Click "Add Mini App"</strong> or "+" button</li>
+                <li><strong>Paste the URL</strong> and install</li>
+                <li><strong>Start playing!</strong> ScraBBly will appear in your Mini Apps</li>
+            </ol>
+        </div>
+        
+        <button class="btn" onclick="window.open('https://scrabbly-frame.vercel.app/game.html', '_blank')">
+            🎮 Play Now
+        </button>
+        
+        <button class="btn btn-secondary" onclick="copyUrl()">
+            📋 Copy Mini App URL
+        </button>
+        
+        <div style="margin-top: 30px; color: #666; font-size: 14px;">
+            <p><strong>ScraBBly</strong> - Built for the Farcaster community</p>
+            <p>Share your high scores and challenge friends!</p>
+        </div>
+    </div>
+
+    <script>
+        function copyUrl() {
+            const url = 'https://scrabbly-frame.vercel.app/mini-app.html';
+            navigator.clipboard.writeText(url).then(() => {
+                alert('✅ Mini App URL copied to clipboard!\n\nPaste this in Farcaster Mini Apps to install ScraBBly!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('✅ Mini App URL copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>
