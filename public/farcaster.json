@@ -1,23 +1,26 @@
 {
-  "name": "ScraBBly",
-  "iconUrl": "https://scrabbly-frame.vercel.app/icon-64.png",
-  "subtitle": "Word scramble puzzle game",
-  "description": "Play ScraBBly! Find words from 7-10 scrambled letters. Can you find the main word to advance to the next puzzle? Compete on weekly and all-time leaderboards!",
-  "primaryCategory": "Games",
-  "screenshotUrls": [
-    "https://scrabbly-frame.vercel.app/screenshot.svg"
-  ],
-  "imageUrl": "https://scrabbly-frame.vercel.app/icon-64.png",
-  "heroImageUrl": "https://scrabbly-frame.vercel.app/icon-64.png",
-  "splashImageUrl": "https://scrabbly-frame.vercel.app/icon-64.png",
-  "splashBackgroundColor": "#667eea",
-  "tags": ["word-game", "puzzle", "scrabble", "words", "brain-game"],
-  "tagline": "Find words, advance puzzles, climb leaderboards!",
-  "buttonTitle": "Play ScraBBly",
-  "ogTitle": "ScraBBly Word Scramble Puzzle Game",
-  "ogDescription": "Challenge your vocabulary with ScraBBly! Find words from scrambled letters and compete with friends on leaderboards.",
-  "ogImageUrl": "https://scrabbly-frame.vercel.app/icon-64.png",
-  "castShareUrl": "https://warpcast.com/~/compose?text=Play+ScraBBly!+Word+scramble+game+-+find+words+from+scrambled+letters!+https://scrabbly-frame.vercel.app/game.html",
-  "homeUrl": "https://scrabbly-frame.vercel.app/game.html",
-  "webhookUrl": "https://scrabbly-frame.vercel.app/api/webhook"
+  "frame": {
+    "name": "ScraBBly",
+    "version": "1",
+    "iconUrl": "https://scrabbly-frame.vercel.app/icon-64.png",
+    "homeUrl": "https://scrabbly-frame.vercel.app/game.html",
+    "subtitle": "Word scramble puzzle game",
+    "description": "Play ScraBBly! Find words from 7-10 scrambled letters. Can you find the main word to advance to the next puzzle? Compete on weekly and all-time leaderboards!",
+    "primaryCategory": "games",
+    "screenshotUrls": [
+      "https://scrabbly-frame.vercel.app/screenshot.svg"
+    ],
+    "imageUrl": "https://scrabbly-frame.vercel.app/icon-64.png",
+    "heroImageUrl": "https://scrabbly-frame.vercel.app/icon-64.png",
+    "splashImageUrl": "https://scrabbly-frame.vercel.app/icon-64.png",
+    "splashBackgroundColor": "#667eea",
+    "tags": ["word-game", "puzzle", "scrabble", "words", "brain-game"],
+    "tagline": "Find words, climb leaderboards",
+    "buttonTitle": "Play ScraBBly",
+    "ogTitle": "ScraBBly Word Scramble Game",
+    "ogDescription": "Challenge your vocabulary with ScraBBly! Find words from scrambled letters and compete with friends",
+    "ogImageUrl": "https://scrabbly-frame.vercel.app/icon-64.png",
+    "castShareUrl": "https://warpcast.com/~/compose?text=Play+ScraBBly!+Word+scramble+game+-+find+words+from+scrambled+letters!+https://scrabbly-frame.vercel.app/game.html",
+    "webhookUrl": "https://scrabbly-frame.vercel.app/api/webhook"
+  }
 }
