@@ -15,6 +15,8 @@
             align-items: center;
             justify-content: center;
             color: #ffffff;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
         .game-container {
             background: #1a1a1a;
@@ -133,16 +135,16 @@
 <body>
     <div class="game-container">
         <div style="text-align: center; margin-bottom: 20px;">
-            <div style="font-size: 48px; margin-bottom: 10px;">🎯</div>
-            <h1>ScraBBly</h1>
-            <p>Word scramble game! Find words from 7-10 scrambled letters.</p>
+            <div style="font-size: 64px; margin-bottom: 15px; color: #ffffff;">🎯</div>
+            <h1 style="color: #ffffff; font-size: 2.5em; margin: 10px 0; font-weight: 300;">ScraBBly</h1>
+            <p style="color: #ffffff; font-size: 16px; margin: 10px 0;">Word scramble game! Find words from 7-10 scrambled letters.</p>
         </div>
         
-        <div style="margin-bottom: 20px;">
-            <button class="btn" onclick="startGame()" style="font-size: 20px; padding: 20px 40px; background: #ffffff; color: #000000; border: 2px solid #333333; font-weight: bold;">🎮 PLAY SCRABBLY</button>
+        <div style="margin-bottom: 30px; text-align: center;">
+            <button class="btn" onclick="startGame()" style="font-size: 22px; padding: 25px 50px; background: #ffffff; color: #000000; border: 3px solid #333333; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">🎮 PLAY SCRABBLY</button>
         </div>
         
-        <div id="loading-indicator" style="display: none; color: #666666; font-size: 14px; margin: 10px 0;">
+        <div id="loading-indicator" style="display: none; color: #666666; font-size: 14px; margin: 10px 0; text-align: center;">
             Loading game...
         </div>
         
@@ -177,61 +179,37 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/@farcaster/mini-apps-sdk@latest/dist/miniapp.js"></script>
     <script>
-        // Initialize Farcaster Mini App SDK with ULTRA aggressive ready() calls
-        function dismissSplash() {
-            try {
-                // Try multiple methods to dismiss splash
-                if (window.miniApp) {
-                    if (window.miniApp.actions && window.miniApp.actions.ready) {
-                        window.miniApp.actions.ready();
-                    }
-                    if (window.miniApp.ready) {
-                        window.miniApp.ready();
-                    }
-                    if (window.miniApp.dismissSplash) {
-                        window.miniApp.dismissSplash();
-                    }
-                    if (window.miniApp.hideSplash) {
-                        window.miniApp.hideSplash();
-                    }
-                }
-                
-                // Try direct calls
-                if (window.miniAppReady) {
-                    window.miniAppReady();
-                }
-                if (window.dismissSplash) {
-                    window.dismissSplash();
-                }
-                
-                console.log('Splash dismissal attempted');
-            } catch (error) {
-                console.error('Error dismissing splash:', error);
+        // Force immediate splash dismissal without waiting for SDK
+        (function() {
+            // Try to dismiss splash immediately
+            if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
+                window.miniApp.actions.ready();
             }
-        }
+            
+            // Force the page to be ready
+            document.body.style.visibility = 'visible';
+            document.body.style.display = 'block';
+            
+            console.log('Forcing page visibility');
+        })();
         
-        // Call immediately and very frequently
-        dismissSplash();
-        setTimeout(dismissSplash, 10);
-        setTimeout(dismissSplash, 25);
-        setTimeout(dismissSplash, 50);
-        setTimeout(dismissSplash, 100);
-        setTimeout(dismissSplash, 200);
-        setTimeout(dismissSplash, 300);
-        setTimeout(dismissSplash, 500);
-        setTimeout(dismissSplash, 750);
-        setTimeout(dismissSplash, 1000);
-        setTimeout(dismissSplash, 1500);
-        setTimeout(dismissSplash, 2000);
-        
-        // Also try on various events
-        document.addEventListener('DOMContentLoaded', dismissSplash);
-        window.addEventListener('load', dismissSplash);
-        window.addEventListener('ready', dismissSplash);
-        window.addEventListener('focus', dismissSplash);
-        window.addEventListener('click', dismissSplash);
+        // Load SDK asynchronously
+        setTimeout(function() {
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/@farcaster/mini-apps-sdk@latest/dist/miniapp.js';
+            script.onload = function() {
+                try {
+                    if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
+                        window.miniApp.actions.ready();
+                        console.log('SDK loaded and ready called');
+                    }
+                } catch (error) {
+                    console.error('SDK error:', error);
+                }
+            };
+            document.head.appendChild(script);
+        }, 100);
         
         let currentPuzzle = null;
         let foundWords = [];

@@ -1,0 +1,16 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="30" fill="#000000" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- Target circles -->
+  <circle cx="32" cy="32" r="24" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="32" cy="32" r="18" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="32" cy="32" r="12" fill="none" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="32" cy="32" r="6" fill="none" stroke="#ffffff" stroke-width="2"/>
+  
+  <!-- Center dot -->
+  <circle cx="32" cy="32" r="2" fill="#ffffff"/>
+  
+  <!-- Letter S -->
+  <text x="32" y="38" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="16" font-weight="bold">S</text>
+</svg>

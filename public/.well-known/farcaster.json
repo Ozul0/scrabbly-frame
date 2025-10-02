@@ -7,7 +7,7 @@
   "miniapp": {
     "version": "1",
     "name": "ScraBBly",
-    "iconUrl": "https://scrabbly-frame.vercel.app/icon.svg",
+    "iconUrl": "https://scrabbly-frame.vercel.app/logo.svg",
     "homeUrl": "https://scrabbly-frame.vercel.app/game.html",
     "subtitle": "Word scramble puzzle game",
     "description": "Play ScraBBly! Find words from 7-10 scrambled letters. Can you find the main word to advance to the next puzzle? Compete on weekly and all-time leaderboards!",
@@ -15,16 +15,16 @@
     "screenshotUrls": [
       "https://scrabbly-frame.vercel.app/screenshot.svg"
     ],
-    "imageUrl": "https://scrabbly-frame.vercel.app/icon.svg",
-    "heroImageUrl": "https://scrabbly-frame.vercel.app/icon.svg",
-    "splashImageUrl": "https://scrabbly-frame.vercel.app/icon.svg",
+    "imageUrl": "https://scrabbly-frame.vercel.app/logo.svg",
+    "heroImageUrl": "https://scrabbly-frame.vercel.app/logo.svg",
+    "splashImageUrl": "https://scrabbly-frame.vercel.app/logo.svg",
     "splashBackgroundColor": "#667eea",
     "tags": ["word-game", "puzzle", "scrabble", "words", "brain-game"],
     "tagline": "Find words, climb leaderboards",
     "buttonTitle": "Play ScraBBly",
     "ogTitle": "ScraBBly Word Scramble Game",
     "ogDescription": "Challenge your vocabulary with ScraBBly! Find words from scrambled letters and compete with friends",
-    "ogImageUrl": "https://scrabbly-frame.vercel.app/icon.svg",
+    "ogImageUrl": "https://scrabbly-frame.vercel.app/logo.svg",
     "webhookUrl": "https://scrabbly-frame.vercel.app/api/webhook"
   }
 }
