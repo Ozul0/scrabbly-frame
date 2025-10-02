@@ -134,6 +134,13 @@
 </head>
 <body>
     <div class="game-container">
+        <!-- Top Corner Score Display -->
+        <div id="accumulated-score" style="position: absolute; top: 20px; right: 20px; background: #000000; border: 2px solid #ffffff; border-radius: 8px; padding: 10px; text-align: center; min-width: 120px;">
+            <div style="color: #ffffff; font-size: 14px; font-weight: 500; margin-bottom: 4px;">Total Score</div>
+            <div style="color: #ffffff; font-size: 24px; font-weight: 700; margin-bottom: 4px;">0</div>
+            <div style="color: #666666; font-size: 12px;">Games: 0</div>
+        </div>
+        
         <div style="text-align: center; margin-bottom: 20px;">
             <div style="font-size: 64px; margin-bottom: 15px; color: #ffffff;">🎯</div>
             <h1 style="color: #ffffff; font-size: 2.5em; margin: 10px 0; font-weight: 300;">ScraBBly</h1>
@@ -165,6 +172,7 @@
         <div id="game-controls" style="display: none;">
             <button class="btn" onclick="newGame()">New Game</button>
             <button class="btn" onclick="showHint()">💡 Hint</button>
+            <button class="btn" onclick="resetAccumulatedScore()" style="background: #666666; color: #ffffff;">Reset Total</button>
         </div>
         
         <div class="leaderboard-section">
@@ -270,9 +278,83 @@
         document.addEventListener('click', retryReady);
         document.addEventListener('touchstart', retryReady);
         
+        // Initialize accumulated score display when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAccumulatedScore();
+        });
+        
+        // Fallback initialization if DOMContentLoaded already fired
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadAccumulatedScore);
+        } else {
+            loadAccumulatedScore();
+        }
+        
         let currentPuzzle = null;
         let foundWords = [];
         let currentScore = 0;
+        let totalAccumulatedScore = 0;
+        let gamesPlayed = 0;
+
+        // Load saved scores from localStorage
+        function loadAccumulatedScore() {
+            try {
+                const savedScore = localStorage.getItem('scrabbly-total-score');
+                const savedGames = localStorage.getItem('scrabbly-games-played');
+                totalAccumulatedScore = savedScore ? parseInt(savedScore) : 0;
+                gamesPlayed = savedGames ? parseInt(savedGames) : 0;
+                updateAccumulatedScoreDisplay();
+            } catch (e) {
+                console.log('Could not load saved scores:', e);
+                totalAccumulatedScore = 0;
+                gamesPlayed = 0;
+            }
+        }
+
+        // Save scores to localStorage
+        function saveAccumulatedScore() {
+            try {
+                localStorage.setItem('scrabbly-total-score', totalAccumulatedScore.toString());
+                localStorage.setItem('scrabbly-games-played', gamesPlayed.toString());
+            } catch (e) {
+                console.log('Could not save scores:', e);
+            }
+        }
+
+        // Update the accumulated score display
+        function updateAccumulatedScoreDisplay() {
+            const scoreElement = document.getElementById('accumulated-score');
+            if (scoreElement) {
+                const scoreValue = scoreElement.querySelector('div:nth-child(2)');
+                const gamesValue = scoreElement.querySelector('div:nth-child(3)');
+                if (scoreValue) scoreValue.textContent = totalAccumulatedScore.toLocaleString();
+                if (gamesValue) gamesValue.textContent = `Games: ${gamesPlayed}`;
+            }
+        }
+
+        // Add score to accumulated total
+        function addToAccumulatedScore(score) {
+            totalAccumulatedScore += score;
+            gamesPlayed++;
+            saveAccumulatedScore();
+            updateAccumulatedScoreDisplay();
+            
+            // Show celebration if it's a milestone
+            if (totalAccumulatedScore >= 1000 && totalAccumulatedScore - score < 1000) {
+                showMessage(`🎉 Milestone! You've reached ${totalAccumulatedScore.toLocaleString()} total points!`, 'success');
+            }
+        }
+
+        // Reset accumulated scores
+        function resetAccumulatedScore() {
+            if (confirm('Are you sure you want to reset your total score and games played?')) {
+                totalAccumulatedScore = 0;
+                gamesPlayed = 0;
+                saveAccumulatedScore();
+                updateAccumulatedScoreDisplay();
+                showMessage('Total score and games reset!', 'info');
+            }
+        }
 
         // MASSIVE word dictionary - 5000+ common words + 3000+ 7-10 letter words
         const commonWords = [
@@ -781,6 +863,8 @@
                     
                     if (word === currentPuzzle.targetWord) {
                         showMessage(`🎉 Perfect! You found "${word}"! +${score} points`, 'success');
+                        // Add current game score to accumulated total when target word is found
+                        addToAccumulatedScore(currentScore);
                         setTimeout(() => {
                             newGame();
                         }, 2000);
@@ -820,6 +904,11 @@
         }
 
         function newGame() {
+            // Add previous game score to accumulated total (if any)
+            if (currentScore > 0) {
+                addToAccumulatedScore(currentScore);
+            }
+            
             currentScore = 0;
             foundWords = [];
             generateNewPuzzle();
@@ -864,6 +953,9 @@
 
         // Function to start the game
         function startGame() {
+            // Load accumulated scores
+            loadAccumulatedScore();
+            
             // Hide the play button and show game elements
             document.querySelector('button[onclick="startGame()"]').style.display = 'none';
             document.getElementById('letters-container').style.display = 'flex';
