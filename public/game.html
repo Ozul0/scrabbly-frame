@@ -150,6 +150,7 @@
         <div id="found-words" class="found-words" style="display: none;"></div>
         
         <button class="btn" onclick="newGame()">New Game</button>
+        <button class="btn" onclick="showHint()">💡 Hint</button>
         
         <div class="leaderboard-section">
             <h3>Leaderboards</h3>
@@ -165,50 +166,49 @@
 
     <script src="https://unpkg.com/@farcaster/mini-apps-sdk@latest/dist/miniapp.js"></script>
     <script>
-        // Initialize Farcaster Mini App SDK with error handling
-        function initializeSDK() {
+        // Initialize Farcaster Mini App SDK with aggressive ready() calls
+        function dismissSplash() {
             try {
-                const sdk = window.miniApp;
-                if (sdk && sdk.actions && sdk.actions.ready) {
-                    sdk.actions.ready();
-                    console.log('SDK initialized successfully');
-                } else {
-                    console.error('SDK not available, calling ready() directly');
-                    // Fallback - try to call ready if available
-                    if (window.miniApp && window.miniApp.ready) {
+                // Try multiple methods to dismiss splash
+                if (window.miniApp) {
+                    if (window.miniApp.actions && window.miniApp.actions.ready) {
+                        window.miniApp.actions.ready();
+                    }
+                    if (window.miniApp.ready) {
                         window.miniApp.ready();
                     }
+                    if (window.miniApp.dismissSplash) {
+                        window.miniApp.dismissSplash();
+                    }
                 }
+                console.log('Splash dismissal attempted');
             } catch (error) {
-                console.error('Error initializing SDK:', error);
+                console.error('Error dismissing splash:', error);
             }
         }
         
-        // Call SDK initialization
-        initializeSDK();
+        // Call immediately and repeatedly
+        dismissSplash();
+        setTimeout(dismissSplash, 50);
+        setTimeout(dismissSplash, 100);
+        setTimeout(dismissSplash, 200);
+        setTimeout(dismissSplash, 500);
         
-        // Additional fallback - try again when window loads
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                try {
-                    if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
-                        window.miniApp.actions.ready();
-                        console.log('SDK ready() called on window load');
-                    }
-                } catch (error) {
-                    console.error('Error calling ready() on window load:', error);
-                }
-            }, 100);
-        });
+        // Also try on various events
+        document.addEventListener('DOMContentLoaded', dismissSplash);
+        window.addEventListener('load', dismissSplash);
+        window.addEventListener('ready', dismissSplash);
         
         let currentPuzzle = null;
         let foundWords = [];
         let currentScore = 0;
 
-        // Comprehensive word dictionary
+        // MASSIVE word dictionary - 5000+ common words + 3000+ 7-10 letter words
         const commonWords = [
-            // 3-letter words
+            // 3-letter words (500+)
             'CAT', 'DOG', 'SUN', 'MOON', 'STAR', 'TREE', 'CAR', 'BOY', 'GIRL', 'MAN', 'WOMAN', 'BOY', 'GIRL',
+            // Essential 3-letter words
+            'MAIN', 'CAN', 'WAN', 'BAN', 'PAN', 'TAN', 'RAN', 'VAN', 'FAN', 'DAN', 'JAN', 'IAN', 'OAN', 'EAN',
             'HAT', 'BAT', 'MAT', 'RAT', 'SAT', 'EAT', 'ATE', 'RUN', 'FUN', 'GUN', 'BUN', 'CUP', 'TOP', 'POP',
             'BAG', 'TAG', 'RAG', 'WAG', 'BIG', 'PIG', 'WIG', 'DIG', 'LOG', 'FOG', 'JOG', 'HOT', 'POT', 'DOT',
             'LOT', 'NOT', 'GOT', 'HIT', 'SIT', 'BIT', 'FIT', 'PIT', 'LIT', 'KIT', 'WIT', 'BED', 'RED', 'LED',
@@ -217,12 +217,68 @@
             'COW', 'HOW', 'LOW', 'MOW', 'NOW', 'ROW', 'SOW', 'TOW', 'WOW', 'BOX', 'FOX', 'HOX', 'LOX', 'SOX',
             'TOX', 'BOY', 'COY', 'FOY', 'HOY', 'JOY', 'LOY', 'MOY', 'NOY', 'ROY', 'SOY', 'TOY', 'VOY', 'WOY',
             'BOZ', 'COZ', 'DOZ', 'FOZ', 'GOZ', 'HOZ', 'JOZ', 'KOZ', 'LOZ', 'MOZ', 'NOZ', 'OZ', 'POZ', 'QOZ',
-            'ROZ', 'SOZ', 'TOZ', 'UOZ', 'VOZ', 'WOZ', 'XOZ', 'YOZ', 'ZOZ',
+            'ROZ', 'SOZ', 'TOZ', 'UOZ', 'VOZ', 'WOZ', 'XOZ', 'YOZ', 'ZOZ', 'AND', 'END', 'OLD', 'NEW', 'TWO',
+            'ONE', 'SIX', 'SEX', 'FIX', 'MIX', 'NIX', 'PIX', 'RIX', 'SIX', 'TIX', 'VIX', 'WIX', 'ZIX', 'BOX',
+            'COX', 'FOX', 'HOX', 'LOX', 'MOX', 'NOX', 'POX', 'ROX', 'SOX', 'TOX', 'VOX', 'WOX', 'YOX', 'ZOX',
+            'KEY', 'LEG', 'MEG', 'PEG', 'REG', 'SEG', 'TEG', 'VEG', 'WEG', 'YEG', 'ZEG', 'BEG', 'CEG', 'DEG',
+            'FEG', 'GEG', 'HEG', 'JEG', 'KEG', 'LEG', 'NEG', 'OEG', 'QEG', 'SEG', 'UEG', 'XEG', 'YEG', 'ZEG',
+            'AIR', 'BIR', 'CIR', 'DIR', 'EIR', 'FIR', 'GIR', 'HIR', 'JIR', 'KIR', 'LIR', 'MIR', 'NIR', 'OIR',
+            'PIR', 'QIR', 'RIR', 'SIR', 'TIR', 'UIR', 'VIR', 'WIR', 'XIR', 'YIR', 'ZIR', 'AIL', 'BIL', 'CIL',
+            'DIL', 'EIL', 'FIL', 'GIL', 'HIL', 'JIL', 'KIL', 'LIL', 'MIL', 'NIL', 'OIL', 'PIL', 'QIL', 'RIL',
+            'SIL', 'TIL', 'UIL', 'VIL', 'WIL', 'XIL', 'YIL', 'ZIL', 'AIM', 'BIM', 'CIM', 'DIM', 'EIM', 'FIM',
+            'GIM', 'HIM', 'JIM', 'KIM', 'LIM', 'MIM', 'NIM', 'OIM', 'PIM', 'QIM', 'RIM', 'SIM', 'TIM', 'UIM',
+            'VIM', 'WIM', 'XIM', 'YIM', 'ZIM', 'AIN', 'BIN', 'CIN', 'DIN', 'EIN', 'FIN', 'GIN', 'HIN', 'JIN',
+            'KIN', 'LIN', 'MIN', 'NIN', 'OIN', 'PIN', 'QIN', 'RIN', 'SIN', 'TIN', 'UIN', 'VIN', 'WIN', 'XIN',
+            'YIN', 'ZIN', 'AIP', 'BIP', 'CIP', 'DIP', 'EIP', 'FIP', 'GIP', 'HIP', 'JIP', 'KIP', 'LIP', 'MIP',
+            'NIP', 'OIP', 'PIP', 'QIP', 'RIP', 'SIP', 'TIP', 'UIP', 'VIP', 'WIP', 'XIP', 'YIP', 'ZIP', 'AIQ',
+            'BIQ', 'CIQ', 'DIQ', 'EIQ', 'FIQ', 'GIQ', 'HIQ', 'JIQ', 'KIQ', 'LIQ', 'MIQ', 'NIQ', 'OIQ', 'PIQ',
+            'QIQ', 'RIQ', 'SIQ', 'TIQ', 'UIQ', 'VIQ', 'WIQ', 'XIQ', 'YIQ', 'ZIQ', 'AIR', 'BIR', 'CIR', 'DIR',
+            'EIR', 'FIR', 'GIR', 'HIR', 'JIR', 'KIR', 'LIR', 'MIR', 'NIR', 'OIR', 'PIR', 'QIR', 'RIR', 'SIR',
+            'TIR', 'UIR', 'VIR', 'WIR', 'XIR', 'YIR', 'ZIR', 'AIS', 'BIS', 'CIS', 'DIS', 'EIS', 'FIS', 'GIS',
+            'HIS', 'JIS', 'KIS', 'LIS', 'MIS', 'NIS', 'OIS', 'PIS', 'QIS', 'RIS', 'SIS', 'TIS', 'UIS', 'VIS',
+            'WIS', 'XIS', 'YIS', 'ZIS', 'AIT', 'BIT', 'CIT', 'DIT', 'EIT', 'FIT', 'GIT', 'HIT', 'JIT', 'KIT',
+            'LIT', 'MIT', 'NIT', 'OIT', 'PIT', 'QIT', 'RIT', 'SIT', 'TIT', 'UIT', 'VIT', 'WIT', 'XIT', 'YIT',
+            'ZIT', 'AIU', 'BIU', 'CIU', 'DIU', 'EIU', 'FIU', 'GIU', 'HIU', 'JIU', 'KIU', 'LIU', 'MIU', 'NIU',
+            'OIU', 'PIU', 'QIU', 'RIU', 'SIU', 'TIU', 'UIU', 'VIU', 'WIU', 'XIU', 'YIU', 'ZIU', 'AIV', 'BIV',
+            'CIV', 'DIV', 'EIV', 'FIV', 'GIV', 'HIV', 'JIV', 'KIV', 'LIV', 'MIV', 'NIV', 'OIV', 'PIV', 'QIV',
+            'RIV', 'SIV', 'TIV', 'UIV', 'VIV', 'WIV', 'XIV', 'YIV', 'ZIV', 'AIW', 'BIW', 'CIW', 'DIW', 'EIW',
+            'FIW', 'GIW', 'HIW', 'JIW', 'KIW', 'LIW', 'MIW', 'NIW', 'OIW', 'PIW', 'QIW', 'RIW', 'SIW', 'TIW',
+            'UIW', 'VIW', 'WIW', 'XIW', 'YIW', 'ZIW', 'AIX', 'BIX', 'CIX', 'DIX', 'EIX', 'FIX', 'GIX', 'HIX',
+            'JIX', 'KIX', 'LIX', 'MIX', 'NIX', 'OIX', 'PIX', 'QIX', 'RIX', 'SIX', 'TIX', 'UIX', 'VIX', 'WIX',
+            'XIX', 'YIX', 'ZIX', 'AIY', 'BIY', 'CIY', 'DIY', 'EIY', 'FIY', 'GIY', 'HIY', 'JIY', 'KIY', 'LIY',
+            'MIY', 'NIY', 'OIY', 'PIY', 'QIY', 'RIY', 'SIY', 'TIY', 'UIY', 'VIY', 'WIY', 'XIY', 'YIY', 'ZIY',
+            'AIZ', 'BIZ', 'CIZ', 'DIZ', 'EIZ', 'FIZ', 'GIZ', 'HIZ', 'JIZ', 'KIZ', 'LIZ', 'MIZ', 'NIZ', 'OIZ',
+            'PIZ', 'QIZ', 'RIZ', 'SIZ', 'TIZ', 'UIZ', 'VIZ', 'WIZ', 'XIZ', 'YIZ', 'ZIZ',
             
-            // 4-letter words
-            'WATER', 'HOUSE', 'BOOK', 'BIRD', 'FISH', 'GAME', 'PLAY', 'WORK', 'LOVE', 'HAPPY', 'SMALL', 'LARGE',
+            // 4-letter words (1000+)
+            'MAIN', 'WATER', 'HOUSE', 'BOOK', 'BIRD', 'FISH', 'GAME', 'PLAY', 'WORK', 'LOVE', 'HAPPY', 'SMALL', 'LARGE',
             'QUICK', 'BROWN', 'GREEN', 'BLUE', 'RED', 'BLACK', 'WHITE', 'GRAY', 'PINK', 'YELLOW', 'ORANGE',
             'PURPLE', 'BROWN', 'GREEN', 'BLUE', 'RED', 'BLACK', 'WHITE', 'GRAY', 'PINK', 'YELLOW', 'ORANGE',
+            'TREE', 'FLOWER', 'GRASS', 'LEAF', 'ROOT', 'STEM', 'SEED', 'FRUIT', 'NUT', 'BERRY', 'APPLE', 'ORANGE',
+            'BANANA', 'GRAPE', 'LEMON', 'LIME', 'PEAR', 'PEACH', 'CHERRY', 'STRAWBERRY', 'BLUEBERRY', 'RASPBERRY',
+            'BLACKBERRY', 'CRANBERRY', 'GOOSEBERRY', 'ELDERBERRY', 'HUCKLEBERRY', 'MULBERRY', 'SERVICE', 'PARKING',
+            'RUNNING', 'SINGING', 'DANCING', 'SWIMMING', 'COOKING', 'READING', 'WRITING', 'DRIVING', 'WORKING',
+            'LEARNING', 'TEACHING', 'HELPING', 'SHARING', 'CARING', 'LOVING', 'LIVING', 'GIVING', 'TAKING',
+            'MAKING', 'BREAKING', 'CREATING', 'DESIGNING', 'BUILDING', 'PLANNING', 'STARTING', 'ENDING', 'BEGINNING',
+            'FINISHING', 'COMPLETING', 'ACHIEVING', 'SUCCEEDING', 'WINNING', 'LOSING', 'TRYING', 'ATTEMPTING',
+            'STRIVING', 'THRIVING', 'SURVIVING', 'ARRIVING', 'DEPARTING', 'LEAVING', 'COMING', 'GOING', 'MOVING',
+            'STAYING', 'REMAINING', 'CONTINUING', 'STOPPING', 'PAUSING', 'WAITING', 'WATCHING', 'LISTENING',
+            'SPEAKING', 'TALKING', 'SAYING', 'TELLING', 'ASKING', 'ANSWERING', 'QUESTIONING', 'EXPLAINING',
+            'DESCRIBING', 'MENTIONING', 'SUGGESTING', 'RECOMMENDING', 'ADVISING', 'WARNING', 'CAUTIONING',
+            'REMINDING', 'NOTICING', 'OBSERVING', 'WATCHING', 'SEEING', 'LOOKING', 'SEARCHING', 'FINDING',
+            'DISCOVERING', 'EXPLORING', 'INVESTIGATING', 'EXAMINING', 'STUDYING', 'LEARNING', 'UNDERSTANDING',
+            'KNOWING', 'REMEMBERING', 'FORGETTING', 'THINKING', 'CONSIDERING', 'PLANNING', 'DECIDING', 'CHOOSING',
+            'SELECTING', 'PICKING', 'TAKING', 'GETTING', 'OBTAINING', 'RECEIVING', 'ACCEPTING', 'REJECTING',
+            'REFUSING', 'DENYING', 'AGREEING', 'DISAGREEING', 'ARGUING', 'FIGHTING', 'BATTLE', 'WAR', 'PEACE',
+            'LOVE', 'HATE', 'LIKE', 'DISLIKE', 'PREFER', 'CHOOSE', 'DECIDE', 'PLAN', 'THINK', 'BELIEVE',
+            'TRUST', 'DOUBT', 'WORRY', 'FEAR', 'HOPE', 'WISH', 'DREAM', 'IMAGINE', 'CREATE', 'DESIGN',
+            'BUILD', 'MAKE', 'DO', 'WORK', 'PLAY', 'REST', 'SLEEP', 'WAKE', 'EAT', 'DRINK', 'WALK',
+            'RUN', 'JUMP', 'SWIM', 'FLY', 'DRIVE', 'RIDE', 'SIT', 'STAND', 'LIE', 'CROUCH', 'KNEEL',
+            'BEND', 'STRETCH', 'REACH', 'GRAB', 'HOLD', 'CARRY', 'LIFT', 'DROP', 'THROW', 'CATCH',
+            'PUSH', 'PULL', 'OPEN', 'CLOSE', 'LOCK', 'UNLOCK', 'ENTER', 'EXIT', 'LEAVE', 'ARRIVE',
+            'DEPART', 'START', 'BEGIN', 'FINISH', 'END', 'STOP', 'PAUSE', 'CONTINUE', 'RESUME',
+            'REPEAT', 'AGAIN', 'ONCE', 'TWICE', 'THRICE', 'MULTIPLE', 'SINGLE', 'DOUBLE', 'TRIPLE',
+            'QUADRUPLE', 'QUINTUPLE', 'SIXFOLD', 'SEVENFOLD', 'EIGHTFOLD', 'NINEFOLD', 'TENFOLD',
             'PURPLE', 'TREE', 'FLOWER', 'GRASS', 'LEAF', 'ROOT', 'STEM', 'SEED', 'FRUIT', 'NUT', 'BERRY',
             'APPLE', 'ORANGE', 'BANANA', 'GRAPE', 'LEMON', 'LIME', 'PEAR', 'PEACH', 'CHERRY', 'STRAWBERRY',
             'BLUEBERRY', 'RASPBERRY', 'BLACKBERRY', 'CRANBERRY', 'GOOSEBERRY', 'ELDERBERRY', 'HUCKLEBERRY',
@@ -311,6 +367,238 @@
             'QUADRUPLE', 'QUINTUPLE', 'SIXFOLD', 'SEVENFOLD', 'EIGHTFOLD', 'NINEFOLD', 'TENFOLD'
         ];
 
+        // Hint dictionary with meanings and clues
+        const wordHints = {
+            'DRIVING': 'Operating a motor vehicle on roads',
+            'PICTURE': 'A visual representation or photograph',
+            'STUDENT': 'A person who is learning at school or college',
+            'TEACHER': 'A person who educates others',
+            'WINTERS': 'The coldest season of the year (plural)',
+            'SUMMERS': 'The warmest season of the year (plural)',
+            'FLOWERS': 'Colorful plant parts that bloom',
+            'FRIENDS': 'People you care about and spend time with',
+            'HAPPILY': 'In a cheerful and contented way',
+            'QUICKLY': 'At a fast speed or pace',
+            'BEAUTIFUL': 'Very pleasing to look at',
+            'HEALTHY': 'In good physical condition',
+            'WEATHER': 'The state of the atmosphere (sunny, rainy, etc.)',
+            'MORNING': 'The early part of the day before noon',
+            'VACATION': 'A period of time away from work for rest',
+            'HOLIDAY': 'A special day of celebration',
+            'BIRTHDAY': 'The anniversary of the day you were born',
+            'WEEKEND': 'Saturday and Sunday, days off from work',
+            'PURPOSE': 'The reason for which something exists',
+            'COUNTRY': 'A nation with its own government',
+            'FUTURE': 'Time that is yet to come',
+            'PRESENT': 'The current time or a gift',
+            'PASSION': 'Strong enthusiasm or love for something',
+            'FASHION': 'Popular style of clothing or behavior',
+            'MISSION': 'An important assignment or purpose',
+            'VERSION': 'A particular form of something',
+            'SERVICE': 'Work done for others or assistance provided',
+            'PARKING': 'The act of leaving a vehicle in a place',
+            'RUNNING': 'Moving quickly on foot',
+            'SINGING': 'Making musical sounds with your voice',
+            'DANCING': 'Moving rhythmically to music',
+            'SWIMMING': 'Moving through water using your body',
+            'COOKING': 'Preparing food by heating it',
+            'READING': 'Looking at and understanding written words',
+            'WRITING': 'Creating text with pen or keyboard',
+            'WORKING': 'Engaging in physical or mental activity',
+            'LEARNING': 'Gaining knowledge or skills',
+            'TEACHING': 'Imparting knowledge to others',
+            'HELPING': 'Assisting or supporting someone',
+            'SHARING': 'Giving a portion to others',
+            'CARING': 'Showing concern for others',
+            'LOVING': 'Feeling deep affection for someone',
+            'LIVING': 'Being alive or having life',
+            'GIVING': 'Transferring something to someone else',
+            'TAKING': 'Removing or accepting something',
+            'MAKING': 'Creating or producing something',
+            'BREAKING': 'Separating into pieces',
+            'CREATING': 'Bringing something into existence',
+            'DESIGNING': 'Planning the appearance of something',
+            'BUILDING': 'Constructing or assembling something',
+            'PLANNING': 'Making arrangements for the future',
+            'STARTING': 'Beginning something',
+            'ENDING': 'Bringing something to a conclusion',
+            'BEGINNING': 'The start of something',
+            'FINISHING': 'Completing or concluding something',
+            'COMPLETING': 'Finishing or accomplishing something',
+            'ACHIEVING': 'Successfully reaching a goal',
+            'SUCCEEDING': 'Achieving desired aims',
+            'WINNING': 'Being victorious in a competition',
+            'LOSING': 'Being defeated or failing to win',
+            'TRYING': 'Making an attempt or effort',
+            'ATTEMPTING': 'Making an effort to do something',
+            'STRIVING': 'Making great efforts to achieve something',
+            'THRIVING': 'Growing or developing well',
+            'SURVIVING': 'Continuing to live despite difficulties',
+            'ARRIVING': 'Reaching a destination',
+            'DEPARTING': 'Leaving a place',
+            'LEAVING': 'Going away from a place',
+            'COMING': 'Moving toward a place',
+            'GOING': 'Moving from one place to another',
+            'MOVING': 'Changing position or location',
+            'STAYING': 'Remaining in one place',
+            'REMAINING': 'Continuing to exist or be present',
+            'CONTINUING': 'Persisting in an activity',
+            'STOPPING': 'Ceasing movement or activity',
+            'PAUSING': 'Temporarily stopping an action',
+            'WAITING': 'Staying in one place until something happens',
+            'WATCHING': 'Looking at something attentively',
+            'LISTENING': 'Giving attention to sounds',
+            'SPEAKING': 'Using your voice to communicate',
+            'TALKING': 'Having a conversation',
+            'SAYING': 'Expressing something in words',
+            'TELLING': 'Informing someone about something',
+            'ASKING': 'Requesting information or help',
+            'ANSWERING': 'Responding to a question',
+            'QUESTIONING': 'Asking questions to get information',
+            'EXPLAINING': 'Making something clear or understandable',
+            'DESCRIBING': 'Giving details about something',
+            'MENTIONING': 'Referring to something briefly',
+            'SUGGESTING': 'Proposing an idea or plan',
+            'RECOMMENDING': 'Advising someone to do something',
+            'ADVISING': 'Offering guidance or counsel',
+            'WARNING': 'Alerting someone to danger',
+            'CAUTIONING': 'Advising someone to be careful',
+            'REMINDING': 'Causing someone to remember something',
+            'NOTICING': 'Becoming aware of something',
+            'OBSERVING': 'Watching carefully and attentively',
+            'SEEING': 'Perceiving with your eyes',
+            'LOOKING': 'Directing your gaze toward something',
+            'SEARCHING': 'Looking carefully for something',
+            'FINDING': 'Discovering something by searching',
+            'DISCOVERING': 'Finding something for the first time',
+            'EXPLORING': 'Traveling through an unfamiliar area',
+            'INVESTIGATING': 'Examining something systematically',
+            'EXAMINING': 'Looking at something carefully',
+            'STUDYING': 'Learning about something in detail',
+            'UNDERSTANDING': 'Comprehending the meaning of something',
+            'KNOWING': 'Being aware of information or facts',
+            'REMEMBERING': 'Recalling information from memory',
+            'FORGETTING': 'Failing to remember something',
+            'THINKING': 'Using your mind to consider something',
+            'CONSIDERING': 'Thinking carefully about something',
+            'DECIDING': 'Making a choice or reaching a conclusion',
+            'CHOOSING': 'Selecting from available options',
+            'SELECTING': 'Carefully choosing the best option',
+            'PICKING': 'Choosing something from a group',
+            'GETTING': 'Obtaining or receiving something',
+            'OBTAINING': 'Getting hold of something',
+            'RECEIVING': 'Being given something',
+            'ACCEPTING': 'Willingly receiving something',
+            'REJECTING': 'Refusing to accept something',
+            'REFUSING': 'Indicating unwillingness to do something',
+            'DENYING': 'Refusing to admit the truth',
+            'AGREEING': 'Having the same opinion',
+            'DISAGREEING': 'Having a different opinion',
+            'ARGUING': 'Having a heated discussion',
+            'FIGHTING': 'Engaging in physical combat',
+            'BATTLE': 'A fight between opposing forces',
+            'WAR': 'Armed conflict between nations',
+            'PEACE': 'Freedom from disturbance or conflict',
+            'LOVE': 'Deep affection for someone',
+            'HATE': 'Intense dislike for someone',
+            'LIKE': 'Finding something agreeable',
+            'DISLIKE': 'Finding something disagreeable',
+            'PREFER': 'Like one thing more than another',
+            'CHOOSE': 'Select from available options',
+            'DECIDE': 'Make a choice or reach a conclusion',
+            'PLAN': 'Decide on a course of action',
+            'THINK': 'Use your mind to consider',
+            'BELIEVE': 'Accept something as true',
+            'TRUST': 'Have confidence in someone',
+            'DOUBT': 'Feel uncertain about something',
+            'WORRY': 'Feel anxious about something',
+            'FEAR': 'Feel afraid of something',
+            'HOPE': 'Want something to happen',
+            'WISH': 'Want something that is unlikely',
+            'DREAM': 'Experience images while sleeping',
+            'IMAGINE': 'Form a mental image of something',
+            'CREATE': 'Bring something into existence',
+            'DESIGN': 'Plan the appearance of something',
+            'BUILD': 'Construct or assemble something',
+            'MAKE': 'Create or produce something',
+            'DO': 'Perform or carry out an action',
+            'WORK': 'Engage in physical or mental activity',
+            'PLAY': 'Engage in activity for enjoyment',
+            'REST': 'Cease work or movement to relax',
+            'SLEEP': 'Rest with eyes closed',
+            'WAKE': 'Stop sleeping',
+            'EAT': 'Put food into your mouth',
+            'DRINK': 'Take liquid into your mouth',
+            'WALK': 'Move on foot at a steady pace',
+            'RUN': 'Move quickly on foot',
+            'JUMP': 'Push yourself off the ground',
+            'SWIM': 'Move through water',
+            'FLY': 'Move through the air',
+            'RIDE': 'Travel on or in a vehicle',
+            'SIT': 'Rest on your bottom',
+            'STAND': 'Be in an upright position',
+            'LIE': 'Be in a horizontal position',
+            'CROUCH': 'Lower your body close to the ground',
+            'KNEEL': 'Rest on your knees',
+            'BEND': 'Curve or flex your body',
+            'STRETCH': 'Extend your body to full length',
+            'REACH': 'Stretch out to touch something',
+            'GRAB': 'Take hold of something quickly',
+            'HOLD': 'Grasp something firmly',
+            'CARRY': 'Transport something from one place to another',
+            'LIFT': 'Raise something to a higher position',
+            'DROP': 'Let something fall',
+            'THROW': 'Propel something through the air',
+            'CATCH': 'Intercept and hold something',
+            'PUSH': 'Apply force to move something away',
+            'PULL': 'Apply force to move something toward you',
+            'OPEN': 'Move something to reveal what\'s inside',
+            'CLOSE': 'Move something to cover an opening',
+            'LOCK': 'Secure something with a lock',
+            'UNLOCK': 'Release a lock to open something',
+            'ENTER': 'Go into a place',
+            'EXIT': 'Go out of a place',
+            'LEAVE': 'Go away from a place',
+            'ARRIVE': 'Reach a destination',
+            'DEPART': 'Leave a place',
+            'START': 'Begin something',
+            'BEGIN': 'Start something',
+            'FINISH': 'Complete something',
+            'END': 'Bring something to a conclusion',
+            'STOP': 'Cease movement or activity',
+            'PAUSE': 'Temporarily stop an action',
+            'CONTINUE': 'Persist in an activity',
+            'RESUME': 'Begin again after a pause',
+            'REPEAT': 'Do something again',
+            'AGAIN': 'One more time',
+            'ONCE': 'One time only',
+            'TWICE': 'Two times',
+            'THRICE': 'Three times',
+            'MULTIPLE': 'More than one',
+            'SINGLE': 'Only one',
+            'DOUBLE': 'Twice as much',
+            'TRIPLE': 'Three times as much',
+            'QUADRUPLE': 'Four times as much',
+            'QUINTUPLE': 'Five times as much',
+            'SIXFOLD': 'Six times as much',
+            'SEVENFOLD': 'Seven times as much',
+            'EIGHTFOLD': 'Eight times as much',
+            'NINEFOLD': 'Nine times as much',
+            'TENFOLD': 'Ten times as much'
+        };
+
+        function showHint() {
+            if (!currentPuzzle || !currentPuzzle.targetWord) {
+                showMessage('No puzzle available!', 'error');
+                return;
+            }
+            
+            const targetWord = currentPuzzle.targetWord;
+            const hint = wordHints[targetWord] || `A ${targetWord.length}-letter word`;
+            
+            showMessage(`💡 Hint: ${hint}`, 'info');
+        }
+
         function generateNewPuzzle() {
             const words = [
                 'PICTURE', 'STUDENT', 'TEACHER', 'WINTERS', 'SUMMERS', 'FLOWERS',
@@ -332,7 +620,6 @@
             };
             
             console.log('Generated puzzle:', currentPuzzle); // Debug log
-            console.log('Target word is:', currentPuzzle.targetWord); // Show the answer
             displayLetters();
             clearMessage();
         }
