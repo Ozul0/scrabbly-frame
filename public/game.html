@@ -179,37 +179,53 @@
         </div>
     </div>
 
-    <script src="https://unpkg.com/@farcaster/mini-apps-sdk@latest/dist/miniapp.js"></script>
+    <script type="module">
+        import { sdk } from 'https://esm.sh/@farcaster/miniapp-sdk';
+        
+        // Make sdk available globally for fallback methods
+        window.sdk = sdk;
+        
+        // Call ready immediately when SDK loads
+        (async function() {
+            try {
+                console.log('SDK loaded, calling ready...');
+                await sdk.actions.ready();
+                console.log('Ready called successfully!');
+            } catch (error) {
+                console.error('SDK ready failed:', error);
+            }
+        })();
+    </script>
     <script>
-        // Immediate SDK ready call - multiple approaches
+        // Fallback SDK ready calls - multiple approaches
         (function() {
-            console.log('Starting splash dismissal...');
+            console.log('Starting fallback splash dismissal...');
             
-            // Method 1: Try immediate ready call
+            // Method 1: Try the new SDK format
+            try {
+                if (window.sdk && window.sdk.actions && window.sdk.actions.ready) {
+                    window.sdk.actions.ready();
+                    console.log('Ready called via window.sdk.actions.ready()');
+                }
+            } catch (e) {
+                console.log('Method 1 failed:', e);
+            }
+            
+            // Method 2: Try old miniApp format (legacy)
             try {
                 if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
                     window.miniApp.actions.ready();
                     console.log('Ready called via miniApp.actions.ready()');
                 }
             } catch (e) {
-                console.log('Method 1 failed:', e);
+                console.log('Method 2 failed:', e);
             }
             
-            // Method 2: Try direct ready call
+            // Method 3: Try direct ready call
             try {
                 if (window.miniApp && window.miniApp.ready) {
                     window.miniApp.ready();
                     console.log('Ready called via miniApp.ready()');
-                }
-            } catch (e) {
-                console.log('Method 2 failed:', e);
-            }
-            
-            // Method 3: Try global ready function
-            try {
-                if (window.ready) {
-                    window.ready();
-                    console.log('Ready called via window.ready()');
                 }
             } catch (e) {
                 console.log('Method 3 failed:', e);
@@ -224,11 +240,18 @@
         })();
         
         // Retry ready calls multiple times
-        const retryReady = () => {
+        const retryReady = async () => {
             try {
+                // Try new SDK format first
+                if (window.sdk && window.sdk.actions && window.sdk.actions.ready) {
+                    await window.sdk.actions.ready();
+                    console.log('Retry ready called via new SDK');
+                    return;
+                }
+                // Fallback to old format
                 if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
                     window.miniApp.actions.ready();
-                    console.log('Retry ready called');
+                    console.log('Retry ready called via legacy SDK');
                 }
             } catch (e) {
                 console.log('Retry failed:', e);
@@ -882,24 +905,30 @@
         }, 2000);
         
         // Also try to dismiss splash on any user interaction
-        document.addEventListener('click', function() {
+        document.addEventListener('click', async function() {
             console.log('User clicked - trying to dismiss splash...');
             try {
-                if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
+                if (window.sdk && window.sdk.actions && window.sdk.actions.ready) {
+                    await window.sdk.actions.ready();
+                    console.log('Ready called on click via new SDK');
+                } else if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
                     window.miniApp.actions.ready();
-                    console.log('Ready called on click');
+                    console.log('Ready called on click via legacy SDK');
                 }
             } catch (e) {
                 console.log('Click ready call failed:', e);
             }
         });
         
-        document.addEventListener('touchstart', function() {
+        document.addEventListener('touchstart', async function() {
             console.log('User touched - trying to dismiss splash...');
             try {
-                if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
+                if (window.sdk && window.sdk.actions && window.sdk.actions.ready) {
+                    await window.sdk.actions.ready();
+                    console.log('Ready called on touch via new SDK');
+                } else if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
                     window.miniApp.actions.ready();
-                    console.log('Ready called on touch');
+                    console.log('Ready called on touch via legacy SDK');
                 }
             } catch (e) {
                 console.log('Touch ready call failed:', e);
