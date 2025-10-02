@@ -179,37 +179,73 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/@farcaster/mini-apps-sdk@latest/dist/miniapp.js"></script>
     <script>
-        // Force immediate splash dismissal without waiting for SDK
+        // Immediate SDK ready call - multiple approaches
         (function() {
-            // Try to dismiss splash immediately
-            if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
-                window.miniApp.actions.ready();
+            console.log('Starting splash dismissal...');
+            
+            // Method 1: Try immediate ready call
+            try {
+                if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
+                    window.miniApp.actions.ready();
+                    console.log('Ready called via miniApp.actions.ready()');
+                }
+            } catch (e) {
+                console.log('Method 1 failed:', e);
             }
             
-            // Force the page to be ready
+            // Method 2: Try direct ready call
+            try {
+                if (window.miniApp && window.miniApp.ready) {
+                    window.miniApp.ready();
+                    console.log('Ready called via miniApp.ready()');
+                }
+            } catch (e) {
+                console.log('Method 2 failed:', e);
+            }
+            
+            // Method 3: Try global ready function
+            try {
+                if (window.ready) {
+                    window.ready();
+                    console.log('Ready called via window.ready()');
+                }
+            } catch (e) {
+                console.log('Method 3 failed:', e);
+            }
+            
+            // Force page visibility
             document.body.style.visibility = 'visible';
             document.body.style.display = 'block';
+            document.body.style.opacity = '1';
             
-            console.log('Forcing page visibility');
+            console.log('Page visibility forced');
         })();
         
-        // Load SDK asynchronously
-        setTimeout(function() {
-            const script = document.createElement('script');
-            script.src = 'https://unpkg.com/@farcaster/mini-apps-sdk@latest/dist/miniapp.js';
-            script.onload = function() {
-                try {
-                    if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
-                        window.miniApp.actions.ready();
-                        console.log('SDK loaded and ready called');
-                    }
-                } catch (error) {
-                    console.error('SDK error:', error);
+        // Retry ready calls multiple times
+        const retryReady = () => {
+            try {
+                if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
+                    window.miniApp.actions.ready();
+                    console.log('Retry ready called');
                 }
-            };
-            document.head.appendChild(script);
-        }, 100);
+            } catch (e) {
+                console.log('Retry failed:', e);
+            }
+        };
+        
+        // Call ready at multiple intervals
+        setTimeout(retryReady, 50);
+        setTimeout(retryReady, 100);
+        setTimeout(retryReady, 200);
+        setTimeout(retryReady, 500);
+        setTimeout(retryReady, 1000);
+        setTimeout(retryReady, 2000);
+        
+        // Also try on user interaction
+        document.addEventListener('click', retryReady);
+        document.addEventListener('touchstart', retryReady);
         
         let currentPuzzle = null;
         let foundWords = [];
@@ -816,21 +852,58 @@
             newGame();
         }
         
-        // Auto-start game after 3 seconds if splash screen persists
+        // Force splash dismissal after 2 seconds regardless of SDK
         setTimeout(function() {
-            if (document.querySelector('button[onclick="startGame()"]').style.display !== 'none') {
-                console.log('Auto-starting game due to splash screen persistence');
+            console.log('Forcing splash dismissal after timeout...');
+            
+            // Try all possible methods one more time
+            try {
+                if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
+                    window.miniApp.actions.ready();
+                    console.log('Final ready call successful');
+                }
+            } catch (e) {
+                console.log('Final ready call failed:', e);
+            }
+            
+            // Force the game to start regardless
+            if (document.querySelector('button[onclick="startGame()"]') && 
+                document.querySelector('button[onclick="startGame()"]').style.display !== 'none') {
+                console.log('Auto-starting game due to persistent splash screen');
                 startGame();
             }
-        }, 3000);
+            
+            // Force page to be fully visible
+            document.body.style.visibility = 'visible';
+            document.body.style.display = 'block';
+            document.body.style.opacity = '1';
+            document.documentElement.style.visibility = 'visible';
+            
+        }, 2000);
         
         // Also try to dismiss splash on any user interaction
         document.addEventListener('click', function() {
-            dismissSplash();
+            console.log('User clicked - trying to dismiss splash...');
+            try {
+                if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
+                    window.miniApp.actions.ready();
+                    console.log('Ready called on click');
+                }
+            } catch (e) {
+                console.log('Click ready call failed:', e);
+            }
         });
         
         document.addEventListener('touchstart', function() {
-            dismissSplash();
+            console.log('User touched - trying to dismiss splash...');
+            try {
+                if (window.miniApp && window.miniApp.actions && window.miniApp.actions.ready) {
+                    window.miniApp.actions.ready();
+                    console.log('Ready called on touch');
+                }
+            } catch (e) {
+                console.log('Touch ready call failed:', e);
+            }
         });
     </script>
 </body>
