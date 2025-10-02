@@ -140,7 +140,14 @@
         </div>
     </div>
 
+    <script src="https://unpkg.com/@farcaster/mini-apps-sdk@latest/dist/miniapp.js"></script>
     <script>
+        // Initialize Farcaster Mini App SDK
+        const sdk = window.miniApp;
+        
+        // Call ready() to dismiss splash screen
+        sdk.actions.ready();
+        
         let currentPuzzle = null;
         let foundWords = [];
         let currentScore = 0;
