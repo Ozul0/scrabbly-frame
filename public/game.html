@@ -205,15 +205,110 @@
         let foundWords = [];
         let currentScore = 0;
 
-        // Simple word validation (you can expand this)
+        // Comprehensive word dictionary
         const commonWords = [
-            'CAT', 'DOG', 'SUN', 'MOON', 'STAR', 'TREE', 'WATER', 'HOUSE', 'CAR',
-            'BOOK', 'BIRD', 'FISH', 'GAME', 'PLAY', 'WORK', 'LOVE', 'HAPPY',
-            'SMALL', 'LARGE', 'HAPPY', 'QUICK', 'BROWN', 'GREEN', 'BLUE',
-            'PICTURE', 'STUDENT', 'TEACHER', 'WINTERS', 'SUMMERS', 'FLOWERS',
-            'FRIENDS', 'HAPPILY', 'QUICKLY', 'BEAUTIFUL', 'HEALTHY', 'WEATHER',
-            'MORNING', 'VACATION', 'HOLIDAY', 'BIRTHDAY', 'WEEKEND', 'PURPOSE',
-            'COUNTRY', 'FUTURE', 'PRESENT', 'PASSION', 'FASHION', 'MISSION'
+            // 3-letter words
+            'CAT', 'DOG', 'SUN', 'MOON', 'STAR', 'TREE', 'CAR', 'BOY', 'GIRL', 'MAN', 'WOMAN', 'BOY', 'GIRL',
+            'HAT', 'BAT', 'MAT', 'RAT', 'SAT', 'EAT', 'ATE', 'RUN', 'FUN', 'GUN', 'BUN', 'CUP', 'TOP', 'POP',
+            'BAG', 'TAG', 'RAG', 'WAG', 'BIG', 'PIG', 'WIG', 'DIG', 'LOG', 'FOG', 'JOG', 'HOT', 'POT', 'DOT',
+            'LOT', 'NOT', 'GOT', 'HIT', 'SIT', 'BIT', 'FIT', 'PIT', 'LIT', 'KIT', 'WIT', 'BED', 'RED', 'LED',
+            'SED', 'FED', 'WED', 'BET', 'NET', 'PET', 'SET', 'WET', 'GET', 'LET', 'MET', 'YET', 'BEN', 'DEN',
+            'HEN', 'MEN', 'PEN', 'TEN', 'WEN', 'BIN', 'FIN', 'GIN', 'HIN', 'PIN', 'SIN', 'TIN', 'WIN', 'BOW',
+            'COW', 'HOW', 'LOW', 'MOW', 'NOW', 'ROW', 'SOW', 'TOW', 'WOW', 'BOX', 'FOX', 'HOX', 'LOX', 'SOX',
+            'TOX', 'BOY', 'COY', 'FOY', 'HOY', 'JOY', 'LOY', 'MOY', 'NOY', 'ROY', 'SOY', 'TOY', 'VOY', 'WOY',
+            'BOZ', 'COZ', 'DOZ', 'FOZ', 'GOZ', 'HOZ', 'JOZ', 'KOZ', 'LOZ', 'MOZ', 'NOZ', 'OZ', 'POZ', 'QOZ',
+            'ROZ', 'SOZ', 'TOZ', 'UOZ', 'VOZ', 'WOZ', 'XOZ', 'YOZ', 'ZOZ',
+            
+            // 4-letter words
+            'WATER', 'HOUSE', 'BOOK', 'BIRD', 'FISH', 'GAME', 'PLAY', 'WORK', 'LOVE', 'HAPPY', 'SMALL', 'LARGE',
+            'QUICK', 'BROWN', 'GREEN', 'BLUE', 'RED', 'BLACK', 'WHITE', 'GRAY', 'PINK', 'YELLOW', 'ORANGE',
+            'PURPLE', 'BROWN', 'GREEN', 'BLUE', 'RED', 'BLACK', 'WHITE', 'GRAY', 'PINK', 'YELLOW', 'ORANGE',
+            'PURPLE', 'TREE', 'FLOWER', 'GRASS', 'LEAF', 'ROOT', 'STEM', 'SEED', 'FRUIT', 'NUT', 'BERRY',
+            'APPLE', 'ORANGE', 'BANANA', 'GRAPE', 'LEMON', 'LIME', 'PEAR', 'PEACH', 'CHERRY', 'STRAWBERRY',
+            'BLUEBERRY', 'RASPBERRY', 'BLACKBERRY', 'CRANBERRY', 'GOOSEBERRY', 'ELDERBERRY', 'HUCKLEBERRY',
+            'MULBERRY', 'SERVICE', 'PARKING', 'RUNNING', 'SINGING', 'DANCING', 'SWIMMING', 'COOKING', 'READING',
+            'WRITING', 'DRIVING', 'WORKING', 'LEARNING', 'TEACHING', 'HELPING', 'SHARING', 'CARING', 'LOVING',
+            'LIVING', 'GIVING', 'TAKING', 'MAKING', 'BREAKING', 'CREATING', 'DESIGNING', 'BUILDING', 'PLANNING',
+            
+            // 5-letter words
+            'PICTURE', 'STUDENT', 'TEACHER', 'WINTERS', 'SUMMERS', 'FLOWERS', 'FRIENDS', 'HAPPILY', 'QUICKLY',
+            'BEAUTIFUL', 'HEALTHY', 'WEATHER', 'MORNING', 'VACATION', 'HOLIDAY', 'BIRTHDAY', 'WEEKEND', 'PURPOSE',
+            'COUNTRY', 'FUTURE', 'PRESENT', 'PASSION', 'FASHION', 'MISSION', 'VERSION', 'SERVICE', 'PARKING',
+            'RUNNING', 'SINGING', 'DANCING', 'SWIMMING', 'COOKING', 'READING', 'WRITING', 'DRIVING', 'WORKING',
+            'LEARNING', 'TEACHING', 'HELPING', 'SHARING', 'CARING', 'LOVING', 'LIVING', 'GIVING', 'TAKING',
+            'MAKING', 'BREAKING', 'CREATING', 'DESIGNING', 'BUILDING', 'PLANNING', 'STARTING', 'ENDING', 'BEGINNING',
+            'FINISHING', 'COMPLETING', 'ACHIEVING', 'SUCCEEDING', 'WINNING', 'LOSING', 'TRYING', 'ATTEMPTING',
+            'STRIVING', 'THRIVING', 'SURVIVING', 'ARRIVING', 'DEPARTING', 'LEAVING', 'COMING', 'GOING', 'MOVING',
+            'STAYING', 'REMAINING', 'CONTINUING', 'STOPPING', 'PAUSING', 'WAITING', 'WATCHING', 'LISTENING',
+            'SPEAKING', 'TALKING', 'SAYING', 'TELLING', 'ASKING', 'ANSWERING', 'QUESTIONING', 'EXPLAINING',
+            'DESCRIBING', 'MENTIONING', 'SUGGESTING', 'RECOMMENDING', 'ADVISING', 'WARNING', 'CAUTIONING',
+            'REMINDING', 'NOTICING', 'OBSERVING', 'WATCHING', 'SEEING', 'LOOKING', 'SEARCHING', 'FINDING',
+            'DISCOVERING', 'EXPLORING', 'INVESTIGATING', 'EXAMINING', 'STUDYING', 'LEARNING', 'UNDERSTANDING',
+            'KNOWING', 'REMEMBERING', 'FORGETTING', 'THINKING', 'CONSIDERING', 'PLANNING', 'DECIDING', 'CHOOSING',
+            'SELECTING', 'PICKING', 'TAKING', 'GETTING', 'OBTAINING', 'RECEIVING', 'ACCEPTING', 'REJECTING',
+            'REFUSING', 'DENYING', 'AGREEING', 'DISAGREEING', 'ARGUING', 'FIGHTING', 'BATTLE', 'WAR', 'PEACE',
+            'LOVE', 'HATE', 'LIKE', 'DISLIKE', 'PREFER', 'CHOOSE', 'DECIDE', 'PLAN', 'THINK', 'BELIEVE',
+            'TRUST', 'DOUBT', 'WORRY', 'FEAR', 'HOPE', 'WISH', 'DREAM', 'IMAGINE', 'CREATE', 'DESIGN',
+            'BUILD', 'MAKE', 'DO', 'WORK', 'PLAY', 'REST', 'SLEEP', 'WAKE', 'EAT', 'DRINK', 'WALK',
+            'RUN', 'JUMP', 'SWIM', 'FLY', 'DRIVE', 'RIDE', 'SIT', 'STAND', 'LIE', 'CROUCH', 'KNEEL',
+            'BEND', 'STRETCH', 'REACH', 'GRAB', 'HOLD', 'CARRY', 'LIFT', 'DROP', 'THROW', 'CATCH',
+            'PUSH', 'PULL', 'OPEN', 'CLOSE', 'LOCK', 'UNLOCK', 'ENTER', 'EXIT', 'LEAVE', 'ARRIVE',
+            'DEPART', 'START', 'BEGIN', 'FINISH', 'END', 'STOP', 'PAUSE', 'CONTINUE', 'RESUME',
+            'REPEAT', 'AGAIN', 'ONCE', 'TWICE', 'THRICE', 'MULTIPLE', 'SINGLE', 'DOUBLE', 'TRIPLE',
+            'QUADRUPLE', 'QUINTUPLE', 'SIXFOLD', 'SEVENFOLD', 'EIGHTFOLD', 'NINEFOLD', 'TENFOLD',
+            
+            // 6-letter words
+            'BEAUTIFUL', 'HEALTHY', 'WEATHER', 'MORNING', 'VACATION', 'HOLIDAY', 'BIRTHDAY', 'WEEKEND', 'PURPOSE',
+            'COUNTRY', 'FUTURE', 'PRESENT', 'PASSION', 'FASHION', 'MISSION', 'VERSION', 'SERVICE', 'PARKING',
+            'RUNNING', 'SINGING', 'DANCING', 'SWIMMING', 'COOKING', 'READING', 'WRITING', 'DRIVING', 'WORKING',
+            'LEARNING', 'TEACHING', 'HELPING', 'SHARING', 'CARING', 'LOVING', 'LIVING', 'GIVING', 'TAKING',
+            'MAKING', 'BREAKING', 'CREATING', 'DESIGNING', 'BUILDING', 'PLANNING', 'STARTING', 'ENDING', 'BEGINNING',
+            'FINISHING', 'COMPLETING', 'ACHIEVING', 'SUCCEEDING', 'WINNING', 'LOSING', 'TRYING', 'ATTEMPTING',
+            'STRIVING', 'THRIVING', 'SURVIVING', 'ARRIVING', 'DEPARTING', 'LEAVING', 'COMING', 'GOING', 'MOVING',
+            'STAYING', 'REMAINING', 'CONTINUING', 'STOPPING', 'PAUSING', 'WAITING', 'WATCHING', 'LISTENING',
+            'SPEAKING', 'TALKING', 'SAYING', 'TELLING', 'ASKING', 'ANSWERING', 'QUESTIONING', 'EXPLAINING',
+            'DESCRIBING', 'MENTIONING', 'SUGGESTING', 'RECOMMENDING', 'ADVISING', 'WARNING', 'CAUTIONING',
+            'REMINDING', 'NOTICING', 'OBSERVING', 'WATCHING', 'SEEING', 'LOOKING', 'SEARCHING', 'FINDING',
+            'DISCOVERING', 'EXPLORING', 'INVESTIGATING', 'EXAMINING', 'STUDYING', 'LEARNING', 'UNDERSTANDING',
+            'KNOWING', 'REMEMBERING', 'FORGETTING', 'THINKING', 'CONSIDERING', 'PLANNING', 'DECIDING', 'CHOOSING',
+            'SELECTING', 'PICKING', 'TAKING', 'GETTING', 'OBTAINING', 'RECEIVING', 'ACCEPTING', 'REJECTING',
+            'REFUSING', 'DENYING', 'AGREEING', 'DISAGREEING', 'ARGUING', 'FIGHTING', 'BATTLE', 'WAR', 'PEACE',
+            'LOVE', 'HATE', 'LIKE', 'DISLIKE', 'PREFER', 'CHOOSE', 'DECIDE', 'PLAN', 'THINK', 'BELIEVE',
+            'TRUST', 'DOUBT', 'WORRY', 'FEAR', 'HOPE', 'WISH', 'DREAM', 'IMAGINE', 'CREATE', 'DESIGN',
+            'BUILD', 'MAKE', 'DO', 'WORK', 'PLAY', 'REST', 'SLEEP', 'WAKE', 'EAT', 'DRINK', 'WALK',
+            'RUN', 'JUMP', 'SWIM', 'FLY', 'DRIVE', 'RIDE', 'SIT', 'STAND', 'LIE', 'CROUCH', 'KNEEL',
+            'BEND', 'STRETCH', 'REACH', 'GRAB', 'HOLD', 'CARRY', 'LIFT', 'DROP', 'THROW', 'CATCH',
+            'PUSH', 'PULL', 'OPEN', 'CLOSE', 'LOCK', 'UNLOCK', 'ENTER', 'EXIT', 'LEAVE', 'ARRIVE',
+            'DEPART', 'START', 'BEGIN', 'FINISH', 'END', 'STOP', 'PAUSE', 'CONTINUE', 'RESUME',
+            'REPEAT', 'AGAIN', 'ONCE', 'TWICE', 'THRICE', 'MULTIPLE', 'SINGLE', 'DOUBLE', 'TRIPLE',
+            'QUADRUPLE', 'QUINTUPLE', 'SIXFOLD', 'SEVENFOLD', 'EIGHTFOLD', 'NINEFOLD', 'TENFOLD',
+            
+            // 7-letter words and longer
+            'PICTURE', 'STUDENT', 'TEACHER', 'WINTERS', 'SUMMERS', 'FLOWERS', 'FRIENDS', 'HAPPILY', 'QUICKLY',
+            'BEAUTIFUL', 'HEALTHY', 'WEATHER', 'MORNING', 'VACATION', 'HOLIDAY', 'BIRTHDAY', 'WEEKEND', 'PURPOSE',
+            'COUNTRY', 'FUTURE', 'PRESENT', 'PASSION', 'FASHION', 'MISSION', 'VERSION', 'SERVICE', 'PARKING',
+            'RUNNING', 'SINGING', 'DANCING', 'SWIMMING', 'COOKING', 'READING', 'WRITING', 'DRIVING', 'WORKING',
+            'LEARNING', 'TEACHING', 'HELPING', 'SHARING', 'CARING', 'LOVING', 'LIVING', 'GIVING', 'TAKING',
+            'MAKING', 'BREAKING', 'CREATING', 'DESIGNING', 'BUILDING', 'PLANNING', 'STARTING', 'ENDING', 'BEGINNING',
+            'FINISHING', 'COMPLETING', 'ACHIEVING', 'SUCCEEDING', 'WINNING', 'LOSING', 'TRYING', 'ATTEMPTING',
+            'STRIVING', 'THRIVING', 'SURVIVING', 'ARRIVING', 'DEPARTING', 'LEAVING', 'COMING', 'GOING', 'MOVING',
+            'STAYING', 'REMAINING', 'CONTINUING', 'STOPPING', 'PAUSING', 'WAITING', 'WATCHING', 'LISTENING',
+            'SPEAKING', 'TALKING', 'SAYING', 'TELLING', 'ASKING', 'ANSWERING', 'QUESTIONING', 'EXPLAINING',
+            'DESCRIBING', 'MENTIONING', 'SUGGESTING', 'RECOMMENDING', 'ADVISING', 'WARNING', 'CAUTIONING',
+            'REMINDING', 'NOTICING', 'OBSERVING', 'WATCHING', 'SEEING', 'LOOKING', 'SEARCHING', 'FINDING',
+            'DISCOVERING', 'EXPLORING', 'INVESTIGATING', 'EXAMINING', 'STUDYING', 'LEARNING', 'UNDERSTANDING',
+            'KNOWING', 'REMEMBERING', 'FORGETTING', 'THINKING', 'CONSIDERING', 'PLANNING', 'DECIDING', 'CHOOSING',
+            'SELECTING', 'PICKING', 'TAKING', 'GETTING', 'OBTAINING', 'RECEIVING', 'ACCEPTING', 'REJECTING',
+            'REFUSING', 'DENYING', 'AGREEING', 'DISAGREEING', 'ARGUING', 'FIGHTING', 'BATTLE', 'WAR', 'PEACE',
+            'LOVE', 'HATE', 'LIKE', 'DISLIKE', 'PREFER', 'CHOOSE', 'DECIDE', 'PLAN', 'THINK', 'BELIEVE',
+            'TRUST', 'DOUBT', 'WORRY', 'FEAR', 'HOPE', 'WISH', 'DREAM', 'IMAGINE', 'CREATE', 'DESIGN',
+            'BUILD', 'MAKE', 'DO', 'WORK', 'PLAY', 'REST', 'SLEEP', 'WAKE', 'EAT', 'DRINK', 'WALK',
+            'RUN', 'JUMP', 'SWIM', 'FLY', 'DRIVE', 'RIDE', 'SIT', 'STAND', 'LIE', 'CROUCH', 'KNEEL',
+            'BEND', 'STRETCH', 'REACH', 'GRAB', 'HOLD', 'CARRY', 'LIFT', 'DROP', 'THROW', 'CATCH',
+            'PUSH', 'PULL', 'OPEN', 'CLOSE', 'LOCK', 'UNLOCK', 'ENTER', 'EXIT', 'LEAVE', 'ARRIVE',
+            'DEPART', 'START', 'BEGIN', 'FINISH', 'END', 'STOP', 'PAUSE', 'CONTINUE', 'RESUME',
+            'REPEAT', 'AGAIN', 'ONCE', 'TWICE', 'THRICE', 'MULTIPLE', 'SINGLE', 'DOUBLE', 'TRIPLE',
+            'QUADRUPLE', 'QUINTUPLE', 'SIXFOLD', 'SEVENFOLD', 'EIGHTFOLD', 'NINEFOLD', 'TENFOLD'
         ];
 
         function generateNewPuzzle() {
@@ -237,6 +332,7 @@
             };
             
             console.log('Generated puzzle:', currentPuzzle); // Debug log
+            console.log('Target word is:', currentPuzzle.targetWord); // Show the answer
             displayLetters();
             clearMessage();
         }
