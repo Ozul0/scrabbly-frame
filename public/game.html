@@ -132,16 +132,23 @@
 </head>
 <body>
     <div class="game-container">
-        <h1>🎯 ScraBBly</h1>
-        <p>Word scramble game! Find words from 7-10 scrambled letters.</p>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div style="font-size: 48px; margin-bottom: 10px;">🎯</div>
+            <h1>ScraBBly</h1>
+            <p>Word scramble game! Find words from 7-10 scrambled letters.</p>
+        </div>
         
-        <div class="letters-container" id="letters-container">
+        <div style="margin-bottom: 20px;">
+            <button class="btn" onclick="startGame()" style="font-size: 18px; padding: 15px 30px;">🎮 Play ScraBBly</button>
+        </div>
+        
+        <div class="letters-container" id="letters-container" style="display: none;">
             <!-- Letters will be generated here -->
         </div>
         
-        <div class="score" id="score">Current Score: 0</div>
+        <div class="score" id="score" style="display: none;">Current Score: 0</div>
         
-        <div class="input-section">
+        <div class="input-section" id="input-section" style="display: none;">
             <input type="text" id="word-input" class="word-input" placeholder="Enter your word..." onkeypress="handleKeyPress(event)">
             <button class="btn" onclick="submitWord()">Submit Word</button>
         </div>
@@ -149,8 +156,10 @@
         <div id="message" class="message" style="display: none;"></div>
         <div id="found-words" class="found-words" style="display: none;"></div>
         
-        <button class="btn" onclick="newGame()">New Game</button>
-        <button class="btn" onclick="showHint()">💡 Hint</button>
+        <div id="game-controls" style="display: none;">
+            <button class="btn" onclick="newGame()">New Game</button>
+            <button class="btn" onclick="showHint()">💡 Hint</button>
+        </div>
         
         <div class="leaderboard-section">
             <h3>Leaderboards</h3>
@@ -791,8 +800,20 @@
             }
         }
 
-        // Start the game
-        newGame();
+        // Function to start the game
+        function startGame() {
+            // Hide the play button and show game elements
+            document.querySelector('button[onclick="startGame()"]').style.display = 'none';
+            document.getElementById('letters-container').style.display = 'flex';
+            document.getElementById('score').style.display = 'block';
+            document.getElementById('input-section').style.display = 'block';
+            document.getElementById('game-controls').style.display = 'block';
+            
+            // Start the actual game
+            newGame();
+        }
+        
+        // Don't auto-start the game - wait for user to click Play
     </script>
 </body>
 </html>
