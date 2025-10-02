@@ -39,10 +39,10 @@ function generateAllTimeLeaderboardFrame() {
     <html>
       <head>
         <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="${process.env.NEXT_PUBLIC_APP_URL}/api/leaderboard-image?type=alltime" />
-        <meta property="fc:frame:button:1" content="🏠 Back to Game" />
-        <meta property="fc:frame:button:2" content="📅 Weekly" />
-        <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_APP_URL}/api/frame" />
+        <meta property="fc:frame:image" content="https://scrabbly-frame.vercel.app/api/leaderboard-image?type=alltime" />
+        <meta property="fc:frame:button:1" content="Back to Game" />
+        <meta property="fc:frame:button:2" content="Weekly" />
+        <meta property="fc:frame:post_url" content="https://scrabbly-frame.vercel.app/api/frame" />
         <title>All-Time Leaderboard - ScraBBly</title>
         <style>
           * { box-sizing: border-box; }

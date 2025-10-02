@@ -39,10 +39,10 @@ function generateWeeklyLeaderboardFrame() {
     <html>
       <head>
         <meta property="fc:frame" content="vNext" />
-        <meta property="fc:frame:image" content="${process.env.NEXT_PUBLIC_APP_URL}/api/leaderboard-image?type=weekly" />
-        <meta property="fc:frame:button:1" content="🏠 Back to Game" />
-        <meta property="fc:frame:button:2" content="📊 All-Time" />
-        <meta property="fc:frame:post_url" content="${process.env.NEXT_PUBLIC_APP_URL}/api/frame" />
+        <meta property="fc:frame:image" content="https://scrabbly-frame.vercel.app/api/leaderboard-image?type=weekly" />
+        <meta property="fc:frame:button:1" content="Back to Game" />
+        <meta property="fc:frame:button:2" content="All-Time" />
+        <meta property="fc:frame:post_url" content="https://scrabbly-frame.vercel.app/api/frame" />
         <title>Weekly Leaderboard - ScraBBly</title>
         <style>
           * { box-sizing: border-box; }
@@ -50,20 +50,19 @@ function generateWeeklyLeaderboardFrame() {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
             margin: 0; 
             padding: 8px; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: #000000;
+            color: #ffffff;
             text-align: center;
             min-height: 100vh;
           }
           .leaderboard-container {
             max-width: 100%;
             margin: 0 auto;
-            background: rgba(255,255,255,0.95);
-            border-radius: 20px;
+            background: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 8px;
             padding: 20px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            color: #333;
+            color: #ffffff;
           }
           @media (min-width: 768px) {
             body { padding: 16px; }
@@ -82,33 +81,31 @@ function generateWeeklyLeaderboardFrame() {
           h1 {
             font-size: 28px;
             margin: 0;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 800;
+            color: #ffffff;
+            font-weight: 300;
           }
           .week-badge {
-            background: linear-gradient(135deg, #4ecdc4, #44a08d);
-            color: white;
+            background: #ffffff;
+            color: #000000;
+            border: 1px solid #333333;
             padding: 8px 16px;
-            border-radius: 20px;
+            border-radius: 4px;
             font-size: 14px;
-            font-weight: 700;
-            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+            font-weight: 500;
           }
           .description {
-            background: linear-gradient(135deg, #e8f5e8, #d4edda);
-            color: #155724;
+            background: #000000;
+            color: #ffffff;
+            border: 1px solid #333333;
             padding: 12px;
-            border-radius: 12px;
+            border-radius: 4px;
             margin: 16px 0;
             font-size: 14px;
             font-weight: 500;
           }
           .instructions {
             font-size: 13px;
-            color: #666;
+            color: #666666;
             margin: 8px 0;
             line-height: 1.4;
           }
