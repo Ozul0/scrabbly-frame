@@ -139,7 +139,11 @@
         </div>
         
         <div style="margin-bottom: 20px;">
-            <button class="btn" onclick="startGame()" style="font-size: 18px; padding: 15px 30px;">🎮 Play ScraBBly</button>
+            <button class="btn" onclick="startGame()" style="font-size: 20px; padding: 20px 40px; background: #ffffff; color: #000000; border: 2px solid #333333; font-weight: bold;">🎮 PLAY SCRABBLY</button>
+        </div>
+        
+        <div id="loading-indicator" style="display: none; color: #666666; font-size: 14px; margin: 10px 0;">
+            Loading game...
         </div>
         
         <div class="letters-container" id="letters-container" style="display: none;">
@@ -175,7 +179,7 @@
 
     <script src="https://unpkg.com/@farcaster/mini-apps-sdk@latest/dist/miniapp.js"></script>
     <script>
-        // Initialize Farcaster Mini App SDK with aggressive ready() calls
+        // Initialize Farcaster Mini App SDK with ULTRA aggressive ready() calls
         function dismissSplash() {
             try {
                 // Try multiple methods to dismiss splash
@@ -189,24 +193,45 @@
                     if (window.miniApp.dismissSplash) {
                         window.miniApp.dismissSplash();
                     }
+                    if (window.miniApp.hideSplash) {
+                        window.miniApp.hideSplash();
+                    }
                 }
+                
+                // Try direct calls
+                if (window.miniAppReady) {
+                    window.miniAppReady();
+                }
+                if (window.dismissSplash) {
+                    window.dismissSplash();
+                }
+                
                 console.log('Splash dismissal attempted');
             } catch (error) {
                 console.error('Error dismissing splash:', error);
             }
         }
         
-        // Call immediately and repeatedly
+        // Call immediately and very frequently
         dismissSplash();
+        setTimeout(dismissSplash, 10);
+        setTimeout(dismissSplash, 25);
         setTimeout(dismissSplash, 50);
         setTimeout(dismissSplash, 100);
         setTimeout(dismissSplash, 200);
+        setTimeout(dismissSplash, 300);
         setTimeout(dismissSplash, 500);
+        setTimeout(dismissSplash, 750);
+        setTimeout(dismissSplash, 1000);
+        setTimeout(dismissSplash, 1500);
+        setTimeout(dismissSplash, 2000);
         
         // Also try on various events
         document.addEventListener('DOMContentLoaded', dismissSplash);
         window.addEventListener('load', dismissSplash);
         window.addEventListener('ready', dismissSplash);
+        window.addEventListener('focus', dismissSplash);
+        window.addEventListener('click', dismissSplash);
         
         let currentPuzzle = null;
         let foundWords = [];
@@ -813,7 +838,22 @@
             newGame();
         }
         
-        // Don't auto-start the game - wait for user to click Play
+        // Auto-start game after 3 seconds if splash screen persists
+        setTimeout(function() {
+            if (document.querySelector('button[onclick="startGame()"]').style.display !== 'none') {
+                console.log('Auto-starting game due to splash screen persistence');
+                startGame();
+            }
+        }, 3000);
+        
+        // Also try to dismiss splash on any user interaction
+        document.addEventListener('click', function() {
+            dismissSplash();
+        });
+        
+        document.addEventListener('touchstart', function() {
+            dismissSplash();
+        });
     </script>
 </body>
 </html>
