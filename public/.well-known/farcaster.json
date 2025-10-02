@@ -1,4 +1,9 @@
 {
+  "accountAssociation": {
+    "header": "eyJmaWQiOjEzMzIzOTMsInR5cGUiOiJhdXRoIiwia2V5IjoiMHhmYTcxNTFjZTUwZjdlMDY0NWJGYzU5ZjA5MERGNDZGY2ZlMDcwNjM4In0",
+    "payload": "eyJkb21haW4iOiJzY3JhYmJseS1mcmFtZS52ZXJjZWwuYXBwIn0",
+    "signature": "zQ1pUJ6eRZfnWiGgXQk9HAprIBNkoSQw9ce144cpPyQY0v712ajHDSej4rkqhQKfsMfMduvfdInPXRRky1cTmRs="
+  },
   "miniapp": {
     "version": "1",
     "name": "ScraBBly",
